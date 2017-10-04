@@ -5,7 +5,7 @@ var app = require('./app');
 var port = process.env.PORT || 3977;
 
 mongoose.Promise = global.Promise;
-mongoose.connect('***************', { useMongoClient: true }, (err, res) => {
+mongoose.connect('mongodb://IEEEinventorio:CFIen831lm+@ds147044.mlab.com:47044/emaily-dev', { useMongoClient: true }, (err, res) => {
     if(err) {
         throw err;
     }else {

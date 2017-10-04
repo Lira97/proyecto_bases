@@ -12,7 +12,7 @@ var multipart = require('connect-multiparty');
 api.get('/administrador/:id', md_auth.ensureAuth, administradorController.getAdministrador);
 api.post('/save-administrador', md_auth.ensureAuth, administradorController.saveAdministrador);
 api.get('/albums/:user?', md_auth.ensureAuth, administradorController.getAdministradores);
-//api.put('/update-administrador/:id', md_auth.ensureAuth, administradorController.updateAdministrador);
-//api.delete('/delete-administrador/:id', md_auth.ensureAuth, administradorController.deleteAdministrador);
+api.put('/update-administrador/:id', md_auth.ensureAuth, administradorController.updateAdministrador);
+api.delete('/delete-administrador/:id', md_auth.ensureAuth, administradorController.deleteAdministrador);
 
 module.exports = api;

@@ -5,7 +5,7 @@ var fs = require('fs');
 var mongoosePaginate = require('mongoose-pagination');
 
 var Administrador = require('../models/administrador');
-var user = require('../models/users');
+var User = require('../models/users');
 
 function getAdministrador(req, res) {
     var administradorId = req.params.id;
@@ -30,7 +30,7 @@ function getAdministrador(req, res) {
 }
 
 function getAdministradores(req, res) {
-    var administradorId = req.params.artist;
+    var administradorId = req.params.user;
 
     if(!administradorId) {
         var find = Administrador.find({}).sort('nombre');
@@ -59,8 +59,8 @@ function getAdministradores(req, res) {
 
 function saveAdministrador(req, res) {
     var administrador = new Administrador();
-
     var params = req.body;
+
     administrador.user = params.user;
 
     administrador.save((err, administradorStored) => {
@@ -82,69 +82,54 @@ function saveAdministrador(req, res) {
     });
 }
 
-function updateAlbum(req, res) {
-    var albumId = req.params.id;
+function updateAdministrador(req, res) {
+    var administradorId = req.params.id;
     var update = req.body;
 
-    Album.findByIdAndUpdate(albumId, update, (err, albumUpdated) => {
+    Album.findByIdAndUpdate(administradorId, update, (err, administradorUpdated) => {
         if(err) {
             res.status(500).send({
                 message: "Error en el servidor"
             });
         }else {
-            if(!albumUpdated) {
+            if(!administradorUpdated) {
                 res.status(404).send({
                     message: "No se ha actualizado el album"
                 });
             }else {
                 res.status(200).send({
-                    album: albumUpdated
+                    administrador: administradorUpdated
                 });
             }
         }
     });
 }
 
-function deleteAlbum(req, res) {
-    var albumId = req.params.id;
+function deleteAdministrador(req, res) {
+    var administradorId = req.params.id;
 
-    Album.findByIdAndRemove(albumId, (err, albumRemoved) => {
+    Album.findByIdAndRemove(administradorId, (err, administradorRemoved) => {
         if(err) {
             res.status(500).send({
                 message: 'Error en la peticion album'
             });
         }else {
-            if(!albumRemoved) {
+            if(!administradorRemoved) {
                 res.status(404).send({
                     message: 'El album no se ha eliminado'
                 });
             }else {
-                Song.find({album: albumRemoved._id}).remove((err, songRemoved) => {
-                    if(err) {
-                        res.status(500).send({
-                            message: 'Error en la peticion cancion'
-                        });
-                    }else {
-                        if(!songRemoved) {
-                            res.status(404).send({
-                                message: 'La cancion no se ha eliminado'
-                            });
-                        }else {
-                            res.status(200).send({
-                                album: albumRemoved,
-                                song: songRemoved
-                            });
-                        }
-                    }
-                });
-            }
+                res.status(200).send({
+                administrador: administradorRemoved
+            });
         }
-    });
+      }
+  });
 }
 module.exports = {
     getAdministrador,
     saveAdministrador,
     getAdministradores,
-    updateAlbum,
-    deleteAlbum
+    updateAdministrador,
+    deleteAdministrador
 };

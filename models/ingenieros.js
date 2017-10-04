@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 var IngenieroSchema = Schema({
    Nservicios: String,
-   User: { type: Schema.ObjectId, ref: 'User' }
+   user: { type: Schema.ObjectId, ref: 'User' }
 });
 
 module.exports = mongoose.model('Ingeniero', IngenieroSchema);
