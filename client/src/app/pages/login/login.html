@@ -1,0 +1,41 @@
+<div class="auth-main">
+  <div class="auth-block">
+    <h1> IEEE Sistema Inventario </h1>
+    <div *ngIf="errorMessage">
+      <div class="alert alert-info">
+        <strong>Error</strong>{{errorMessage}}
+      </div>
+    </div>
+  <div class="auth-sep"><span><span translate>Ingresa tus datos</span></span></div>
+      <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+        <div class="form-group row" [ngClass]="{'has-error': (!email.valid && email.touched), 'has-success': (email.valid && email.touched)}">
+          <label for="inputEmail3" class="col-sm-2 control-label" translate>{{'login.email'}}</label>
+        <div class="col-sm-10">
+            <input type="email" #email="ngModel" name="email" [(ngModel)]="user.email" class="form-control" id="inputEmail3" required />
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
+        <label for="inputPassword3" class="col-sm-2 control-label" translate>{{'login.password'}}</label>
+        <div class="col-sm-10">
+          <input type="password" #password="ngModel" name="password" [(ngModel)]="user.password"  class="form-control" id="inputPassword3" required />
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="offset-sm-2 col-sm-10">
+          <input type="submit" value="Entrar" (ngSubmit)="onSubmit()" class="btn btn-primary">
+
+          <a  class="forgot-pass" translate>{{'login.forgot_password'}}</a>
+        </div>
+      </div>
+    </form>
+
+    <div class="auth-sep"><span><span translate>{{'login.sign_from_app_text'}}</span></span></div>
+
+    <div class="al-share-auth">
+      <ul class="al-share clearfix">
+        <li><i class="socicon socicon-facebook" title="{{'login.share_on_facebook' | translate}}"></i></li>
+        <li><i class="socicon socicon-google" title="{{'login.share_on_google_plus' | translate}}"></i></li>
+      </ul>
+    </div>
+  </div>
+</div>
