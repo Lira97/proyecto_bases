@@ -14,8 +14,9 @@ Se usaron los siguientes recursos
 
 * [Git](https://git-scm.com/downloads)
 * [MongoDB](https://www.mongodb.org/downloads)
-* [Node 6.x](https://nodejs.org/en/download/)
-* npm 3.x ( or yarn)
+* [Node ](https://nodejs.org/en/download/)
+* [Angular]
+* npm ()
 
 
 ## Instalacion
