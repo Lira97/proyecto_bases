@@ -1,4 +1,4 @@
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/linnovate/mean?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 
 #### Sistema de Inventario.
 
