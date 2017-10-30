@@ -4,7 +4,6 @@ import { User } from '../../models/users';
 import { UserService } from '../../services/user.service';
 import { GLOBAL } from '../../services/global';
 import {Router} from '@angular/router';
-import {FlashMessagesService} from 'angular2-flash-messages';
 
 @Component({
   selector: 'login',

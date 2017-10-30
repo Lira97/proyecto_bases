@@ -2,14 +2,10 @@
 
   <div class="row">
     <ba-card cardTitle="Inventario" baCardClass="with-scroll" class="smart-table-container">
-      <div>
-      <button type="CVS" class="btn btn-success" (click)="download()">Download CVS</button>
-      </div>
       <ng2-smart-table [settings]="settings" [source]="source"
       (deleteConfirm)="onDeleteConfirm($event)"
       (editConfirm)="onSaveConfirm($event)"
-      (createConfirm)="onCreateConfirm($event)" ></ng2-smart-table>
-
+      (createConfirm)="onCreateConfirm($event)"></ng2-smart-table>
     </ba-card>
   </div>
 

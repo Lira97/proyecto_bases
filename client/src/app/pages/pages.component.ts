@@ -16,7 +16,7 @@ import { PAGES_MENU } from './pages.menu';
       </div>
     </div>
     <footer class="al-footer clearfix">
-      <div class="al-footer-right" translate>{{'general.created_with'}} <i class="ion-heart"></i></div>
+      <div class="al-footer-right" translate><i class="ion-heart"></i></div>
       <div class="al-footer-main clearfix">
       </div>
     </footer>

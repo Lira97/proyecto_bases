@@ -3,10 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { GLOBAL } from './global'
-//import { Inventario } from '../models/inventario';
-
-
-
+import { Inventario } from '../models/inventario';
 
 @Injectable()
 export class InventarioService {
@@ -16,8 +13,8 @@ export class InventarioService {
         this.url = GLOBAL.url;
     }
 
-    /*addProducto(token, artist: Artist) {
-        let params = JSON.stringify(artist);
+    addProducto(token, inventario: Inventario) {
+        let params = JSON.stringify(inventario);
         let headers = new Headers({
             'Content-Type': 'application/json',
             'Authorization': token
@@ -27,8 +24,8 @@ export class InventarioService {
             .map(res => res.json());
     }
 
-    editProducto(token, id: string, artist: Artist) {
-        let params = JSON.stringify(artist);
+    editProducto(token, id: string, inventario: Inventario) {
+        let params = JSON.stringify(inventario);
         let headers = new Headers({
             'Content-Type': 'application/json',
             'Authorization': token
@@ -47,20 +44,30 @@ export class InventarioService {
         let options = new RequestOptions({headers: headers});
         return this._http.delete(this.url + 'delete-inventario/'+id, options)
             .map(res => res.json());
-    }*/
-
-    getInventarios(token, page) {
-
-        let headers = new Headers({
-            'Content-Type':'application/json',
-            'Authorization': token
-        });
-        let options = new RequestOptions({headers: headers});
-        return this._http.get(this.url + 'inventarios/'+page,options)
-            .map(res => res.json());
     }
 
-    /*getProducto(token, id: string) {
+    getInventarios(token, page) {
+        console.log("hola");
+        let headers = new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': token
+        });
+
+        let options = new RequestOptions({headers: headers});
+        return this._http.get(this.url + 'inventarios/'+page, options)
+            .map(res => {
+              if(res.status < 200 || res.status >= 300) {
+        throw new Error('This request has failed ' + res.status);
+      }
+      else {
+        console.log(res);
+        return res.json();
+        }
+    });
+
+    }
+
+    getProducto(token, id: string) {
         let headers = new Headers({
             'Content-Type': 'application/json',
             'Authorization': token
@@ -69,5 +76,5 @@ export class InventarioService {
         let options = new RequestOptions({headers: headers});
         return this._http.get(this.url + 'inventario/'+id, options)
             .map(res => res.json());
-    }*/
+    }
 }

@@ -3,21 +3,21 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { GLOBAL } from '../../../../services/global'
-import { Inventario } from '../../../../models/inventario';
+import { Contrato } from '../../../../models/contratos';
 
 @Injectable()
-export class SmartTablesService {
+export class ContratosTablesService {
   public url: string;
   constructor(private _http: Http) {
       this.url = GLOBAL.url;
   }
-  addProducto(token, inventario) {
+  addContrato(token, inventario) {
           let params = inventario;
       let headers = new Headers({
           'Content-Type': 'application/json',
           'Authorization': token
       });
-      return this._http.post(this.url + 'save-producto', params, {headers: headers})
+      return this._http.post(this.url + 'save-contrato', params, {headers: headers})
           .map(res => {  if(res.status < 200 || res.status >= 300) {
               throw new Error('This request has failed ' + res.status);
             }else {
@@ -26,14 +26,14 @@ export class SmartTablesService {
               }
         });
   }
-  editProducto(token, id: string, inventario) {
+  editContrato(token, id: string, inventario) {
 
       let headers = new Headers({
           'Content-Type': 'application/json',
           'Authorization': token
       });
 
-      return this._http.put(this.url + 'update-inventario/'+id, inventario, {headers: headers})
+      return this._http.put(this.url + 'update-contrato/'+id, inventario, {headers: headers})
           .map(res => res.json());
   }
 
@@ -44,7 +44,7 @@ export class SmartTablesService {
           });
 
       let options = new RequestOptions({headers: headers});
-      return this._http.get(this.url + 'inventarios/', options)
+      return this._http.get(this.url + 'contratos/'+page, options)
           .map(res => {
             if(res.status < 200 || res.status >= 300) {
               throw new Error('This request has failed ' + res.status);
@@ -55,14 +55,15 @@ export class SmartTablesService {
         });
 
   }
-  deleteProducto(token, id: string) {
+
+  deleteContrato(token, id: string) {
     console.log('id');
       let headers = new Headers({
           'Content-Type': 'application/json',
           'Authorization': token
       });
       let options = new RequestOptions({headers: headers});
-      return this._http.delete(this.url + 'delete-inventario/'+id, options)
+      return this._http.delete(this.url + 'delete-contrato/'+id, options)
           .map(res => res.json());
   }
   smartTableData = [

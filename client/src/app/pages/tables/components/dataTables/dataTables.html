@@ -70,15 +70,15 @@
 
                     </thead>
                     <tbody>
-                        <tr *ngFor="let inventario of inventarios">
+                        <tr *ngFor="let inv of inventario">
                             <td>
                                 <button (click)="remove(item)" class="btn btn-danger">x</button>
                             </td>
-                            <td>{{inventario.Nserie}}</td>
-                            <td>{{inventario.modelo}}</td>
-                            <td>{{inventario.cantidad}}</td>
-                            <td>{{inventario.serie}}</td>
-                            <td>{{inventario.capacidad}}</td>
+                            <td>{{inv.Nserie}}</td>
+                            <td>{{inv.modelo}}</td>
+                            <td>{{inv.cantidad}}</td>
+                            <td>{{inv.serie}}</td>
+                            <td>{{inv.capacidad}}</td>
                         </tr>
                     </tbody>
                     <tfoot>

@@ -1,11 +1,57 @@
 import {Injectable} from '@angular/core';
-
+import { Component,OnInit } from '@angular/core';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
+import { GLOBAL } from '../../../../services/global'
+import { Venta } from '../../../../models/ventas';
+import { UserService } from '../../../../services/user.service';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { VentasTablesService } from '../../../tables/components/ventasTables/ventasTables.service';
 import {BaThemeConfigProvider} from '../../../../theme';
+@Component({
+  providers: [UserService]
+})
 
 @Injectable()
 export class ChartistJsService {
+  public url: string;
+  public token;
+  public fecha ;
 
-  private _data = {
+  constructor(protected service: VentasTablesService,private _route: ActivatedRoute,
+  private _router: Router,private _baConfig:BaThemeConfigProvider,private _http: Http,private _userService: UserService) {
+    this.url = GLOBAL.url;
+    this.token = this._userService.getToken();
+    console.log(  this.token);
+    this.getFecha();
+
+  }
+  getFecha() {
+              this.service.getFecha(this.token).subscribe(
+                  response => {
+
+                      if(!response) {
+                          this._router.navigate(['/datatables']);
+                      }else {
+
+                          this.fecha=response;
+                          console.log(response);
+                          console.log(this.fecha);
+
+                      }
+                  },
+                  error => {
+                      var errorMessage = <any>error;
+                      if(errorMessage != null) {
+                          var body = JSON.parse(error._body);
+                          console.log(errorMessage);
+                      }
+                  }
+      );
+  }
+  public _data = {
+
     simpleLineOptions: {
       color: this._baConfig.get().colors.defaultText,
       fullWidth: true,
@@ -59,10 +105,11 @@ export class ChartistJsService {
       }
     },
     simpleBarData: {
+
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       series: [
-        [15, 24, 43, 27, 5, 10, 23, 44, 68, 50, 26, 8],
-        [13, 22, 49, 22, 4, 6, 24, 46, 57, 48, 22, 4]
+        [],
+        [this.fecha, 2, 9, 2, 4, 6, 4, 4, 7, 8, 2, 4]
       ]
     },
     simpleBarOptions: {
@@ -169,9 +216,6 @@ export class ChartistJsService {
       }
     }
   };
-
-  constructor(private _baConfig:BaThemeConfigProvider) {
-  }
 
   public getAll() {
     return this._data;

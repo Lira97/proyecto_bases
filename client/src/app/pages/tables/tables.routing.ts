@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { Tables } from './tables.component';
 import { BasicTables } from './components/basicTables/basicTables.component';
 import { SmartTables } from './components/smartTables/smartTables.component';
+import { ContratoTables } from './components/contratosTables/contratosTables.component';
+import { VentasTables } from './components/ventasTables/ventasTables.component';
 import { DataTables } from './components/dataTables/dataTables.component';
 import { HotTablesComponent } from './components/hotTables/hotTables.component';
 
@@ -12,8 +14,9 @@ const routes: Routes = [
     path: '',
     component: Tables,
     children: [
-      { path: 'basictables', component: BasicTables },
+      { path: 'contratables', component: ContratoTables },
       { path: 'smarttables', component: SmartTables },
+      { path: 'ventastables', component: VentasTables },
       { path: 'datatables', component: DataTables },
       { path: 'hottables', component: HotTablesComponent }
     ]

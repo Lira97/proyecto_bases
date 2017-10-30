@@ -64,7 +64,7 @@ function getProducts(req, res) {
     {
       var page = 1;
     }
-    var itemsPerPage = 3;
+    var itemsPerPage = 100;
 
     inventario.find().sort('Nserie').paginate(page, itemsPerPage, function(err, products, total) {
         if(err) {

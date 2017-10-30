@@ -134,11 +134,33 @@ function deleteVenta(req, res) {//creamos la funcion para eliminar a una venta
             }
         });
     }
-
+    function getFechas(req, res) {//creamos la funcion para obtener una venta
+      var params = req.body;
+        var fechaInicio = params.fechaInicio;//Creamos una variable que guarde los parámetros del body
+        var fechaFin = params.fechaFin;
+        ventas.count({"fecha": { $gte:fechaInicio, $lt:fechaFin }}, (err, venta) => {//Hacemos la llamada a la base de datos por medio del la función de findById
+            if(err) {
+                res.status(500).send({
+                    message: 'Error en la peticion'//La respuesta es un error entonces regresa un mensaje de error
+                });
+            }else {
+                if(!venta) {
+                    res.status(404).send({//Si no encuentra el dato en la base de datos regresa un mensaje de error
+                        message: 'La venta no existe'
+                    });
+                }else {
+                    res.status(200).send({//Si lo encuentra regresa el dato solicitado
+                        venta
+                    });
+                }
+            }
+        });
+    }
 module.exports = {//exportamos todos los metodos
     getVenta,
     saveVenta,
     getVentas,
     updateVenta,
-    deleteVenta
+    deleteVenta,
+    getFechas
 };

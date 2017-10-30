@@ -1,26 +1,27 @@
 import { Component,OnInit } from '@angular/core';
-import { SmartTablesService } from './smartTables.service';
+import { ContratosTablesService } from './contratosTables.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
+
 import { GLOBAL } from '../../../../services/global';
 import { UserService } from '../../../../services/user.service';
 
-import { Inventario } from '../../../../models/inventario';
+import { Contrato } from '../../../../models/contratos';
 
 
 
 @Component({
-  selector: 'smart-tables',
-  templateUrl: './smartTables.html',
-  styleUrls: ['./smartTables.scss'],
-  providers: [UserService, SmartTablesService]
+  selector: 'contratos-tables',
+  templateUrl: './contratosTables.html',
+  styleUrls: ['./contratosTables.scss'],
+  providers: [UserService, ContratosTablesService]
 })
-export class SmartTables {
+export class ContratoTables {
   public titulo: string;
 
-  public inventario: Inventario[];
+  public contratos: Contrato[];
   public identity;
   public token;
   public url: string;
@@ -41,38 +42,40 @@ export class SmartTables {
       createButtonContent: '<i class="ion-checkmark"></i>',
       cancelButtonContent: '<i class="ion-close"></i>',
       confirmCreate: true
-
     },
     edit: {
       editButtonContent: '<i class="ion-edit"></i>',
       saveButtonContent: '<i class="ion-checkmark"></i>',
       cancelButtonContent: '<i class="ion-close"></i>',
       confirmSave: true
-
     },
     delete: {
       deleteButtonContent: '<i class="ion-trash-a"></i>',
       confirmDelete: true
     },
     columns: {
-      Nserie: {
-        title: 'Nserie',
+      id_contrato: {
+        title: 'id_contrato',
         type: 'number'
       },
-      cantidad: {
-        title: 'cantidad',
-        type: 'number'
-      },
-      capacidad: {
-        title: 'capacidad',
-        type: 'number'
-      },
-      serie: {
-        title: 'serie',
+      nombreEmpresa: {
+        title: 'Empresa',
         type: 'string'
       },
-      modelo: {
-        title: 'modelo',
+      valor: {
+        title: 'valor',
+        type: 'number'
+      },
+      zona: {
+        title: 'zona',
+        type: 'string'
+      },
+      telefono: {
+        title: 'telefono',
+        type: 'string'
+      },
+      servicios: {
+        title: 'servicios',
         type: 'string'
       }
     }
@@ -80,7 +83,7 @@ export class SmartTables {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(protected service: SmartTablesService,
+  constructor(protected service: ContratosTablesService,
   private _route: ActivatedRoute,
   private _router: Router,
   private _userService: UserService) {
@@ -97,52 +100,8 @@ export class SmartTables {
       console.log('artist-list.componenet.ts cargado');
       console.log(this.identity);
       console.log(this.token);
+      // Conseguir el listado de artista
      this.getInventarios();
-  }
-  download() {
-    this._route.params.forEach((params: Params) => {
-        let page = +params['page'];
-        page = 1
-
-        if(!page) {
-            page = 1;
-        }else {
-            this.next_page = page+1;
-            this.prev_page = page-1;
-
-            if(this.prev_page == 0) {
-                this.prev_page = 1;
-            }
-            this.service.getData(this.token, page).subscribe(
-                response => {
-
-                    if(!response.products) {
-                        this._router.navigate(['/datatables']);
-                    }else {
-                        this.inventario = response.products;
-                        this.source.load(response.products);
-                        console.log(this.inventario);
-                    }
-                },
-                error => {
-                    var errorMessage = <any>error;
-                    if(errorMessage != null) {
-                        var body = JSON.parse(error._body);
-                        console.log(errorMessage);
-                    }
-                }
-            );
-        }
-    });
-          var options = {
-          fieldSeparator: ',',
-          quoteStrings: '"',
-          decimalseparator: '.',
-          showLabels: true,
-          showTitle: true
-          };
-
-          new Angular2Csv(this.inventario, 'Inventario',options);
   }
   getInventarios() {
       //obtengo parametros que vienen por la url
@@ -162,12 +121,12 @@ export class SmartTables {
               this.service.getData(this.token, page).subscribe(
                   response => {
 
-                      if(!response.products) {
+                      if(!response.contratos) {
                           this._router.navigate(['/datatables']);
                       }else {
-                          this.inventario = response.products;
-                          this.source.load(response.products);
-                          console.log(this.inventario);
+                          this.contratos = response.contratos;
+                          this.source.load(response.contratos);
+                          console.log(this.contratos);
                       }
                   },
                   error => {
@@ -183,8 +142,9 @@ export class SmartTables {
   }
   onSaveConfirm(event) {
     if (window.confirm('Are you sure you want to change?')) {
-    this.service.editProducto(this.token, event.data._id, event.newData).subscribe(
+    this.service.editContrato(this.token, event.data._id, event.newData).subscribe(
         response => {
+
             if(!response) {
                 alert('Error en el servidor');
             }else {
@@ -208,14 +168,15 @@ export class SmartTables {
 
   onCreateConfirm(event) {
     if (window.confirm('Are you sure you want to create?')) {
-    this.service.addProducto(this.token, event.newData).subscribe(
+      console.log(event.newData);
+    this.service.addContrato(this.token, event.newData).subscribe(
         response => {
           console.log(response);
             if(!response) {
                 alert("Error en el servidor");
             }else {
                 alert ('El producto se ha creado correctamente');
-                this.inventario = response.products;
+                this.contratos = response.contratos;
                 this.getInventarios();
                 event.confirm.reject();
 
@@ -237,7 +198,7 @@ export class SmartTables {
 
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
-      this.service.deleteProducto(this.token, event.data._id).subscribe(
+      this.service.deleteContrato(this.token, event.data._id).subscribe(
           response => {
               if(!response) {
                   alert("Error en el servidor");

@@ -3,21 +3,21 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { GLOBAL } from '../../../../services/global'
-import { Inventario } from '../../../../models/inventario';
+import { Venta } from '../../../../models/ventas';
 
 @Injectable()
-export class SmartTablesService {
+export class  VentasTablesService{
   public url: string;
   constructor(private _http: Http) {
       this.url = GLOBAL.url;
   }
-  addProducto(token, inventario) {
+  addContrato(token, inventario) {
           let params = inventario;
-      let headers = new Headers({
+          let headers = new Headers({
           'Content-Type': 'application/json',
           'Authorization': token
       });
-      return this._http.post(this.url + 'save-producto', params, {headers: headers})
+      return this._http.post(this.url + 'save-ventas', params, {headers: headers})
           .map(res => {  if(res.status < 200 || res.status >= 300) {
               throw new Error('This request has failed ' + res.status);
             }else {
@@ -26,14 +26,14 @@ export class SmartTablesService {
               }
         });
   }
-  editProducto(token, id: string, inventario) {
+  editContrato(token, id: string, inventario) {
 
       let headers = new Headers({
           'Content-Type': 'application/json',
           'Authorization': token
       });
 
-      return this._http.put(this.url + 'update-inventario/'+id, inventario, {headers: headers})
+      return this._http.put(this.url + 'update-ventas/'+id, inventario, {headers: headers})
           .map(res => res.json());
   }
 
@@ -44,7 +44,7 @@ export class SmartTablesService {
           });
 
       let options = new RequestOptions({headers: headers});
-      return this._http.get(this.url + 'inventarios/', options)
+      return this._http.get(this.url + 'ventas/', options)
           .map(res => {
             if(res.status < 200 || res.status >= 300) {
               throw new Error('This request has failed ' + res.status);
@@ -55,27 +55,38 @@ export class SmartTablesService {
         });
 
   }
-  deleteProducto(token, id: string) {
+  deleteContrato(token, id: string) {
     console.log('id');
       let headers = new Headers({
           'Content-Type': 'application/json',
           'Authorization': token
       });
       let options = new RequestOptions({headers: headers});
-      return this._http.delete(this.url + 'delete-inventario/'+id, options)
+      return this._http.delete(this.url + 'delete-ventas/'+id, options)
           .map(res => res.json());
   }
-  smartTableData = [
-    {
-      id: 1,
-      firstName: 'Mark',
-      lastName: 'Otto',
-      username: '@mdo',
-      email: 'mdo@gmail.com',
-      age: '28'
-    }
-  ];
+  getFecha(token) {
+    let params = ({
+        fechaInicio: '2017-03-23 3:4:40',
+        fechaFin: '2017-12-23 3:4:42'
+        });
+      let headers = new Headers({
+          'Content-Type': 'application/json',
+          'Authorization': token
+          });
 
+      let options = new RequestOptions({headers: headers});
+      return this._http.post(this.url + 'get-fechas',params, options)
+          .map(res => {
+            if(res.status < 200 || res.status >= 300) {
+              throw new Error('This request has failed ' + res.status);
+            }else {
+              console.log(res);
+              return res.json();
+              }
+        });
+
+  }
   metricsTableData = [
     {
       image: 'app/browsers/chrome.svg',

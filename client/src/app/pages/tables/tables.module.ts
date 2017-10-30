@@ -20,6 +20,10 @@ import { CondensedTable } from './components/basicTables/components/condensedTab
 import { ContextualTable } from './components/basicTables/components/contextualTable';
 import { SmartTables } from './components/smartTables/smartTables.component';
 import { SmartTablesService } from './components/smartTables/smartTables.service';
+import { ContratoTables } from './components/contratosTables/contratosTables.component';
+import { ContratosTablesService } from './components/contratosTables/contratosTables.service';
+import { VentasTables } from './components/ventasTables/ventasTables.component';
+import { VentasTablesService } from './components/ventasTables/ventasTables.service';
 import { DataTables } from './components/dataTables/dataTables.component';
 import { DataTablesService } from './components/dataTables/dataTables.service';
 
@@ -53,6 +57,8 @@ import { AdvancedDemoComponent } from './components/hotTables/handsontable/advan
     ContextualTable,
     ResponsiveTable,
     SmartTables,
+    ContratoTables,
+    VentasTables,
     DataTables,
     DataFilterPipe,
     HotTablesComponent,
@@ -66,7 +72,9 @@ import { AdvancedDemoComponent } from './components/hotTables/handsontable/advan
   ],
   providers: [
     BasicTablesService,
+    ContratosTablesService,
     SmartTablesService,
+    VentasTablesService,
     DataTablesService
   ]
 })

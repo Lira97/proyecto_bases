@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
-
+import { UserService } from '../../../../services/user.service';
 import {ChartistJsService} from './chartistJs.service';
 
 @Component({
   selector: 'chartist-js',
   templateUrl: './chartistJs.html',
-  styleUrls: ['./chartistJs.scss']
+  styleUrls: ['./chartistJs.scss'],
+  providers: [UserService]
 })
 
 export class ChartistJs {

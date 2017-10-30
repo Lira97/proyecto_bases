@@ -28,8 +28,8 @@ export class DataTables implements OnInit{
     //data;
     //filterQuery = "";
     //rowsOnPage = 10;
-    //sortBy = "email";
-    //sortOrder = "asc";
+    sortBy = "email";
+    sortOrder = "asc";
 
     constructor(
     private service: InventarioService,
@@ -73,12 +73,11 @@ export class DataTables implements OnInit{
               }
               this.service.getInventarios(this.token, page).subscribe(
                   response => {
-                      if(!response.inventarios) {
-                          //this._router.navigate(['/']);
-                          this.inventario = response.inventario
-                          console.log(this.inventario);
+
+                      if(!response.products) {
+                          this._router.navigate(['/datatables']);
                       }else {
-                          this.inventario = response.inventario;
+                          this.inventario = response.products;
                           console.log(this.inventario);
                       }
                   },
