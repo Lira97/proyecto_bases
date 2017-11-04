@@ -1,5 +1,4 @@
-<div class="widgets">
-
+<div class="widgets" *ngIf="identity && identity.role =='Administrado'" >
   <div class="row">
     <ba-card cardTitle="Inventario" baCardClass="with-scroll" class="smart-table-container">
       <div>
@@ -9,8 +8,18 @@
       (deleteConfirm)="onDeleteConfirm($event)"
       (editConfirm)="onSaveConfirm($event)"
       (createConfirm)="onCreateConfirm($event)" ></ng2-smart-table>
-
     </ba-card>
   </div>
+</div>
+<div class="widgets" *ngIf="identity.role !='Administrado'" >
 
+  <div class="row">
+    <ba-card cardTitle="Inventario" baCardClass="with-scroll" class="smart-table-container">
+      <h1>No tienes permisos para modificar las tablas</h1>
+      <div>
+      <button type="CVS" class="btn btn-success" (click)="download()">Download CVS</button>
+      </div>
+      <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+    </ba-card>
+  </div>
 </div>

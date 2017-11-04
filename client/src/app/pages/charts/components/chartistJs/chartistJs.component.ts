@@ -12,15 +12,7 @@ import {ChartistJsService} from './chartistJs.service';
 export class ChartistJs {
 
   data:any;
-
   constructor(private _chartistJsService:ChartistJsService) {
-  }
-
-  ngOnInit() {
     this.data = this._chartistJsService.getAll();
-  }
-
-  getResponsive(padding, offset) {
-    return this._chartistJsService.getResponsive(padding, offset);
   }
 }
