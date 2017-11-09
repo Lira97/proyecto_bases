@@ -37,6 +37,14 @@ function saveProduct(req, res) {
     producto.cantidad = params.cantidad;
     producto.serie = params.serie;
     producto.capacidad = params.capacidad;
+    let Nserie = producto.Nserie;
+
+    if (!producto.Nserie || !producto.modelo || !producto.cantidad  || !producto.serie  || !producto.capacidad )
+    {
+      return res.status(404).send({
+          message: 'Los datos no puede estar vacios'
+      });
+    }
 
     producto.save((err, productoStored) => {
         if(err) {

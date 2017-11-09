@@ -92,6 +92,28 @@ export class DataTables implements OnInit{
           }
       });
   }
+  remove(event): void {
+    if (window.confirm('Estas seguro que quieres elimonar este elemento')) {
+      console.log(event)
+      /*this.service.deleteContrato(this.token, event.data._id).subscribe(
+          response => {
+              if(!response) {
+                  alert("Error en el servidor");
+              }
+              this.getVentas();
+          },
+          error => {
+              var errorMessage = <any>error;
+              if(errorMessage != null) {
+                  var body = JSON.parse(error._body);
+                  console.log(errorMessage);
+              }
+          }
+      );*/
+    } else {
+      event.confirm.reject();
+    }
+  }
 
     toInt(num: string) {
         return +num;

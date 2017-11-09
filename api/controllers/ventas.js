@@ -134,6 +134,7 @@ function deleteVenta(req, res) {//creamos la funcion para eliminar a una venta
             }
         });
     }
+
     function getFechas(req, res) {//creamos la funcion para obtener una venta
       var params = req.body;
         var fechaInicio = params.fechaInicio;//Creamos una variable que guarde los parámetros del body
@@ -146,15 +147,17 @@ function deleteVenta(req, res) {//creamos la funcion para eliminar a una venta
             }else {
                 if(!venta) {
                     res.status(404).send({//Si no encuentra el dato en la base de datos regresa un mensaje de error
-                        message: 'La venta no existe'
+                        venta
                     });
                 }else {
                     res.status(200).send({//Si lo encuentra regresa el dato solicitado
+
                         venta
                     });
                 }
             }
         });
+
     }
 module.exports = {//exportamos todos los metodos
     getVenta,

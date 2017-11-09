@@ -18,7 +18,7 @@
                         <div class="offset-sm-1 col-sm-5">
                             <div class="row">
                                 <select class="form-control input-sm" [(ngModel)]="sortBy">
-                            <option ngValue="Nserie">Nserie</option>
+                            <option ngValue="Nserie">jn</option>
                             <option ngValue="modelo">modelo</option>
                             <option ngValue="cantidad">cantidad</option>
                             <option ngValue="serie">serie</option>
@@ -26,15 +26,7 @@
                         </select>
                             </div>
                         </div>
-                        <div class="offset-sm-1 col-sm-5">
-                            <div class="row">
-                                <select class="form-control input-sm" [(ngModel)]="sortOrder">
-                            <option ngValue="asc">Ascending</option>
-                            <option ngValue="desc">Descending</option>
-                            <option ngValue="badValue">Bad value</option>
-                        </select>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -44,27 +36,24 @@
                 <table class="table table-striped" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
                     <thead>
                       <tr>
-                          <th colspan="5">
-                              Filter by name:
-                              <input class="form-control" [(ngModel)]="filterQuery" />
-                          </th>
+                          <button (click)="remove(item)" class="btn btn-success">Agregar</button>
                       </tr>
                         <tr>
                             <th style="width: 10%"></th>
                             <th style="width: 18%">
-                                <mfDefaultSorter by="ID">ID</mfDefaultSorter>
+                                <mfDefaultSorter by="ID">Nserie</mfDefaultSorter>
                             </th>
                             <th style="width: 18%">
-                                <mfDefaultSorter by="email">Email</mfDefaultSorter>
+                                <mfDefaultSorter by="email">modelo</mfDefaultSorter>
                             </th>
                             <th style="width: 18%">
-                                <mfDefaultSorter by="age">Age</mfDefaultSorter>
+                                <mfDefaultSorter by="age">cantidad</mfDefaultSorter>
                             </th>
                             <th style="width: 18%">
-                                <mfDefaultSorter by="age">Age</mfDefaultSorter>
+                                <mfDefaultSorter by="age">serie</mfDefaultSorter>
                             </th>
                             <th style="width: 18%">
-                                <mfDefaultSorter [by]="sortByWordLength">City</mfDefaultSorter>
+                                <mfDefaultSorter [by]="sortByWordLength">capacidad</mfDefaultSorter>
                             </th>
                         </tr>
 
@@ -72,7 +61,8 @@
                     <tbody>
                         <tr *ngFor="let inv of inventario">
                             <td>
-                                <button (click)="remove(item)" class="btn btn-danger">x</button>
+                              <button (click)="remove($item)" class="btn btn-danger">Eliminar</button>
+                                <button (click)="remove(item)" class="btn btn-primary">Editar</button>
                             </td>
                             <td>{{inv.Nserie}}</td>
                             <td>{{inv.modelo}}</td>

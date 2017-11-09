@@ -15,7 +15,7 @@ export class DataTablesService {
   }
 
     getInventarios(token, page) {
-        /*let headers = new Headers({
+        let headers = new Headers({
             'Content-Type': 'application/json',
             'Authorization': token
         });
@@ -29,7 +29,6 @@ export class DataTablesService {
       else {
         return res.json();
         }
-    });*/
-    console.log("hola");
+    });
   }
 }

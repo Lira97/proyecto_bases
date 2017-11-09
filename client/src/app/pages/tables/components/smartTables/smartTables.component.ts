@@ -23,6 +23,7 @@ export class SmartTables {
   public inventario: Inventario[];
   public identity;
   public token;
+  public errorMessage;
   public url: string;
   public next_page;
   public prev_page;
@@ -69,7 +70,15 @@ export class SmartTables {
       },
       serie: {
         title: 'serie',
-        type: 'string'
+        type: 'string',
+        editor: {
+        type: 'list',
+        config: {
+          list: [
+            { value: 'gm', title: 'gm' },
+          ]
+        }
+      }
       },
       modelo: {
         title: 'modelo',
@@ -225,8 +234,9 @@ export class SmartTables {
             var errorMessage = <any>error;
             if(errorMessage != null) {
               var body = JSON.parse(error._body);
-              console.log(errorMessage);
-                console.log(errorMessage);
+              this.errorMessage = body.message;
+              //this.errorMessage = 0;
+              console.log(error);
             }
         }
     );

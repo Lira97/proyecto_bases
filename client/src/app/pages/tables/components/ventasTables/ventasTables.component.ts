@@ -23,6 +23,7 @@ export class VentasTables {
   public ventas: Venta[];
   public identity;
   public token;
+  public errorMessage;
   public url: string;
   public next_page;
   public prev_page;
@@ -75,7 +76,9 @@ export class VentasTables {
       },
       fecha: {
         title: 'fecha',
-        type: 'string'
+        type: 'string',
+        noDataMessage: 'No data found',
+
       },
       tipo: {
         title: 'tipo',
@@ -105,7 +108,6 @@ export class VentasTables {
       console.log(this.token);
       // Conseguir el listado de artista
      this.getVentas();
-     this.getFecha();
   }
   getVentas() {
       //obtengo parametros que vienen por la url
@@ -143,6 +145,7 @@ export class VentasTables {
               );
           }
       });
+      console.log(this.ventas);
   }
   onSaveConfirm(event) {
     if (window.confirm('Are you sure you want to change?')) {
@@ -160,8 +163,8 @@ export class VentasTables {
             var errorMessage = <any>error;
             if(errorMessage != null) {
                 var body = JSON.parse(error._body);
-
-                console.log(errorMessage);
+                this.errorMessage = body.message;
+                console.log(error);
             }
         }
     );
@@ -190,8 +193,8 @@ export class VentasTables {
             var errorMessage = <any>error;
             if(errorMessage != null) {
               var body = JSON.parse(error._body);
+              this.errorMessage = body.message;
               console.log(errorMessage);
-                console.log(errorMessage);
             }
         }
     );
@@ -220,26 +223,5 @@ export class VentasTables {
     } else {
       event.confirm.reject();
     }
-  }
-  getFecha() {
-      //obtengo parametros que vienen por la url
-              this.service.getFecha(this.token).subscribe(
-                  response => {
-
-                      if(!response) {
-                          this._router.navigate(['/datatables']);
-                      }else {
-
-                          console.log(response);
-                      }
-                  },
-                  error => {
-                      var errorMessage = <any>error;
-                      if(errorMessage != null) {
-                          var body = JSON.parse(error._body);
-                          console.log(errorMessage);
-                      }
-                  }
-      );
   }
 }

@@ -1,7 +1,12 @@
-<div class="widgets" *ngIf="identity && identity.role =='Administrado'" >
+<div class="widgets" *ngIf="identity && identity.role =='Administrador'" >
   <div class="row">
     <ba-card cardTitle="Inventario" baCardClass="with-scroll" class="smart-table-container">
       <div>
+        <div *ngIf="errorMessage">
+          <div class="alert alert-info">
+            <strong></strong>{{errorMessage}}
+          </div>
+        </div>
       <button type="CVS" class="btn btn-success" (click)="download()">Download CVS</button>
       </div>
       <ng2-smart-table [settings]="settings" [source]="source"
@@ -11,7 +16,7 @@
     </ba-card>
   </div>
 </div>
-<div class="widgets" *ngIf="identity.role !='Administrado'" >
+<div class="widgets" *ngIf="identity.role !='Administrador'" >
 
   <div class="row">
     <ba-card cardTitle="Inventario" baCardClass="with-scroll" class="smart-table-container">

@@ -10,6 +10,7 @@ import { ChartistJs } from './components/chartistJs/chartistJs.component';
 import { ChartistJsService } from './components/chartistJs/chartistJs.service';
 import { AppTranslationModule } from '../../app.translation.module';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -25,7 +26,8 @@ import { AppTranslationModule } from '../../app.translation.module';
   providers: [
     ChartistJsService,
     VentasTablesService,
-    UserService
+    UserService,
+
   ]
 })
 export class ChartsModule {}

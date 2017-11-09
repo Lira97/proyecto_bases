@@ -65,23 +65,23 @@ export class  VentasTablesService{
       return this._http.delete(this.url + 'delete-ventas/'+id, options)
           .map(res => res.json());
   }
-  getFecha(token) {
+  getFecha(token,inicio,fin) {
+  
     let params = ({
-        fechaInicio: '2017-03-23 3:4:40',
-        fechaFin: '2017-12-23 3:4:42'
+        fechaInicio: inicio,
+        fechaFin:fin
         });
       let headers = new Headers({
           'Content-Type': 'application/json',
           'Authorization': token
           });
-
       let options = new RequestOptions({headers: headers});
       return this._http.post(this.url + 'get-fechas',params, options)
           .map(res => {
             if(res.status < 200 || res.status >= 300) {
               throw new Error('This request has failed ' + res.status);
             }else {
-              console.log(res);
+
               return res.json();
               }
         });

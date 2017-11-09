@@ -9,6 +9,11 @@ import { UserService } from '../../../../services/user.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { VentasTablesService } from '../../../tables/components/ventasTables/ventasTables.service';
 import {BaThemeConfigProvider} from '../../../../theme';
+export interface Frequency {
+  letter: string,
+  frequency: number
+}
+
 @Component({
   providers: [UserService]
 })
@@ -17,57 +22,30 @@ import {BaThemeConfigProvider} from '../../../../theme';
 export class ChartistJsService {
   public url: string;
   public token;
-  public _data = {
-    simpleBarData: {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      series: [[33,]],
-    },
-    simpleBarOptions: {
-      fullWidth: true,
-      height: '300px'
-    }
-  };
+  public storedata;
+  public STATISTICS = [
+    {letter: "Jan", frequency: 90},
+    {letter: "Feb", frequency: 12},
+    {letter: "Mar", frequency: 53},
+    {letter: "Apr", frequency: 32},
+    {letter: "May", frequency: 12},
+    {letter: "Jun", frequency: 32},
+    {letter: "Jul", frequency: 45},
+    {letter: "Aug", frequency: 48},
+    {letter: "Sep", frequency: 89},
+    {letter: "Oct", frequency: 12},
+    {letter: "Nov", frequency: 12},
+    {letter: "Dec", frequency: 12},
+  ];
   constructor(protected service: VentasTablesService,private _route: ActivatedRoute,
   private _router: Router,private _baConfig:BaThemeConfigProvider,private _http: Http,private _userService: UserService) {
     this.url = GLOBAL.url;
     this.token = this._userService.getToken();
-    this.getFecha();
-
+  }
+  ngOnInit() {
   }
   public getAll() {
-    console.log(this._data);
-    this.getFecha()
-    return this._data;
-  }
-  getFecha(){
-              this.service.getFecha(this.token).subscribe(
-                  response => {
 
-                      if(!response) {
-                          this._router.navigate(['/datatables']);
-                      }else {
-                          this._data.simpleBarData.series[0][0]=response.venta;
-                          this._data.simpleBarData.series[0][1]=response.venta;
-                          this._data.simpleBarData.series[0][2]=response.venta;
-                          this._data.simpleBarData.series[0][3]=response.venta;
-                          this._data.simpleBarData.series[0][4]=response.venta;
-                          this._data.simpleBarData.series[0][5]=response.venta;
-                          this._data.simpleBarData.series[0][6]=response.venta;
-                          this._data.simpleBarData.series[0][7]=response.venta;
-                          this._data.simpleBarData.series[0][8]=response.venta;
-                          this._data.simpleBarData.series[0][9]=response.venta;
-                          this._data.simpleBarData.series[0][10]=response.venta;
-                          this._data.simpleBarData.series[0][11]=response.venta;
-
-                      }
-                  },
-                  error => {
-                      var errorMessage = <any>error;
-                      if(errorMessage != null) {
-                          var body = JSON.parse(error._body);
-                          console.log(errorMessage);
-                      }
-                  }
-      );
+    return this.STATISTICS
   }
 }
