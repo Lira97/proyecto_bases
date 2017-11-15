@@ -32,18 +32,18 @@ export class ChartistJs {
     {inicio: '2017-12-01 0:0:0', fin: '2017-12-31 23:59:59'},
   ];
   public STATISTICS = [
-    {letter: "Jan", frequency: 78},
-    {letter: "Feb", frequency: 12},
-    {letter: "Mar", frequency: 53},
-    {letter: "Apr", frequency: 32},
-    {letter: "May", frequency: 12},
-    {letter: "Jun", frequency: 32},
-    {letter: "Jul", frequency: 45},
-    {letter: "Aug", frequency: 48},
-    {letter: "Sep", frequency: 89},
-    {letter: "Oct", frequency: 12},
-    {letter: "Nov", frequency: 12},
-    {letter: "Dec", frequency: 12},
+    {letter: "Jan", frequency: 0},
+    {letter: "Feb", frequency: 0},
+    {letter: "Mar", frequency: 0},
+    {letter: "Apr", frequency: 0},
+    {letter: "May", frequency: 0},
+    {letter: "Jun", frequency: 0},
+    {letter: "Jul", frequency: 0},
+    {letter: "Aug", frequency: 0},
+    {letter: "Sep", frequency: 0},
+    {letter: "Oct", frequency: 0},
+    {letter: "Nov", frequency: 0},
+    {letter: "Dec", frequency: 0},
   ];
 
   title = 'Ventas por mes';

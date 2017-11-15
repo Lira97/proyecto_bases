@@ -16,21 +16,21 @@ export class CalendarService {
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
       },
-      defaultDate: '2016-03-08',
+      defaultDate: '2017-11-14',
       selectable: true,
       selectHelper: true,
       editable: true,
       eventLimit: true,
       events: [
         {
-          title: 'All Day Event',
-          start: '2016-03-01',
+          title: 'Entrega proyecto final',
+          start: '2017-12-23 3:4:41',
           color: dashboardColors.silverTree
         },
         {
           title: 'Long Event',
-          start: '2016-03-07',
-          end: '2016-03-10',
+          start: '2018-01-01',
+          end: '2018-01-10',
           color: dashboardColors.blueStone
         },
         {

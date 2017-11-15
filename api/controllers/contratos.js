@@ -66,7 +66,7 @@ function getContratos(req, res) {//creamos la funcion para obtener a los contrat
     }else{
       var page = 1;//si no recibe el dato se le asigna uno
     }
-    var itemsPerPage = 3;//asignamos cuantos productos se veran por pagina
+    var itemsPerPage = 100;//asignamos cuantos productos se veran por pagina
     contratos.find().sort('nombreEmpresa').paginate(page, itemsPerPage, function(err, contratos, total) {//buscamos en la base de datos y lo ordenamos por el nombre de la empresa
         if(err) {
             res.status(500).send({//La respuesta es un error entonces regresa un mensaje de error

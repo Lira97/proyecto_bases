@@ -11,7 +11,7 @@ function getServicio(req, res) {//creamos la funcion para obtener un servicio
     var serviciosId = req.params.id;//Creamos una variable que guarde los parámetros del body
 
 
-    ventas.findById(serviciosId, (err, servicio) => {//Hacemos la llamada a la base de datos por medio del la función de findById
+    servicios.findById(serviciosId, (err, servicio) => {//Hacemos la llamada a la base de datos por medio del la función de findById
         if(err) {
             res.status(500).send({//La respuesta es un error entonces regresa un mensaje de error
                 message: 'Error en la peticion'
@@ -67,8 +67,8 @@ function getServicios(req, res) {//creamos la funcion para obtener a los servici
   }else{
     var page = 1;//si no recibe el dato se le asigna uno
   }
-  var itemsPerPage = 3;//asignamos cuantos productos se veran por pagina
-    ventas.find().sort('Nventa').paginate(page, itemsPerPage, function(err, servicios, total) {//buscamos en la base de datos y lo ordenamos por el nombre de la empresa
+  var itemsPerPage = 100;//asignamos cuantos productos se veran por pagina
+    servicios.find().sort('Nventa').paginate(page, itemsPerPage, function(err, servicios, total) {//buscamos en la base de datos y lo ordenamos por el nombre de la empresa
         if(err) {
             res.status(500).send({//La respuesta es un error entonces regresa un mensaje de error
                 message: 'Error en la peticion'
@@ -92,7 +92,7 @@ function updateServicio(req, res) {//creamos la funcion para actualizar a un ser
     var serviciosId = req.params.id;//Creamos una variable que guarde los parámetros del body
     var update = req.body;//Creamos una variable que guarde los parámetros del body
 
-    ventas.findByIdAndUpdate(serviciosId, update, (err, servicioUpdated) => {
+    servicios.findByIdAndUpdate(serviciosId, update, (err, servicioUpdated) => {
         if(err) {
             res.status(500).send({//La respuesta es un error entonces regresa un mensaje de error
                 message: 'Error en la peticion'
@@ -114,7 +114,7 @@ function updateServicio(req, res) {//creamos la funcion para actualizar a un ser
 function deleteServicio(req, res) {//creamos la funcion para eliminar a un servicio
     var serviciosID = req.params.id;//Creamos una variable que guarde los parámetros del body
 
-    ventas.findByIdAndRemove(serviciosID, (err, servicioRemoved) => {
+    servicios.findByIdAndRemove(serviciosID, (err, servicioRemoved) => {
         if(err) {
             res.status(500).send({//La respuesta es un error entonces regresa un mensaje de error
                 message: 'Error en la peticion artista'

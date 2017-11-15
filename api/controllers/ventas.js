@@ -62,7 +62,7 @@ function saveVenta(req, res) {//creamos la funcion para guardar nuevas ventas
 
 function getVentas(req, res) {//creamos la funcion para obtener a las ventas
 
-    var itemsPerPage = 3;//asignamos cuantos productos se veran por pagina
+    var itemsPerPage = 100;//asignamos cuantos productos se veran por pagina
 
     if(req.params.page) {//usamos la paginacion de mongoose del body
         page = req.params.page;
