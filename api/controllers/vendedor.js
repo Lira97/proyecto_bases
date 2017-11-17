@@ -64,7 +64,12 @@ function saveVendedor(req, res) {//creamos la funcion para guardar nuevos vended
     //regresamos lo valores del body y los igualamos a los del schema
     vendedor.Nclientes=params.Nclientes
     vendedor.user = params.user;
-
+    if (!vendedor.Nclientes || !vendedor.user )
+    {
+      return res.status(404).send({
+          message: 'Los datos no puede estar vacios'
+      });
+    }
     vendedor.save((err, vendedorStored) => {//La respuesta es un error entonces regresa un mensaje de error
         if(err) {
             res.status(500).send({

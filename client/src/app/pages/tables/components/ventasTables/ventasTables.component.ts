@@ -103,7 +103,7 @@ export class VentasTables {
     this.prev_page = 1;
   }
   ngOnInit() {
-      console.log('artist-list.componenet.ts cargado');
+    
       console.log(this.identity);
       console.log(this.token);
       // Conseguir el listado de artista

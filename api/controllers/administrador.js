@@ -63,7 +63,12 @@ function saveAdministrador(req, res) {//creamos la funcion para guardar nuevos a
     var params = req.body;//Creamos una variable que guarde los parámetros del body
 
     administrador.user = params.user;//regresamos lo valores del body y los igualamos a los del schema
-
+    if (!administrador.user)
+    {
+      return res.status(404).send({
+          message: 'Los datos no puede estar vacios'
+      });
+    }
     administrador.save((err, administradorStored) => {
         if(err) {
             res.status(500).send({//La respuesta es un error entonces regresa un mensaje de error

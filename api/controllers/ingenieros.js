@@ -64,7 +64,12 @@ function saveIngeniero(req, res) {//creamos la funcion para guardar nuevos ingen
     //regresamos lo valores del body y los igualamos a los del schema
     ingeniero.Nservicios=params.Nservicios
     ingeniero.user = params.user;
-
+    if (!ingeniero.Nservicios || !ingeniero.user )
+    {
+      return res.status(404).send({
+          message: 'Los datos no puede estar vacios'
+      });
+    }
     ingeniero.save((err, ingenieroStored) => {//La respuesta es un error entonces regresa un mensaje de error
 
         if(err) {
@@ -90,7 +95,7 @@ function updateIngeniero(req, res) {//creamos la funcion para actualizar a un in
     var update = req.body;//Creamos una variable que guarde los parámetros del body
 
     Ingeniero.findByIdAndUpdate(ingenieroId, update, (err, ingenieroUpdated) => {//buscamos el valor que deseamos
-        
+
         if(err) {
             res.status(500).send({//La respuesta es un error entonces regresa un mensaje de error
                 message: "Error en el servidor"

@@ -58,7 +58,9 @@ export class ChartistJs {
   private x: any;
   private y: any;
   private svg: any;
+
   private g: any;
+
 
   constructor(private _chartistJsService:ChartistJsService,protected service: VentasTablesService,private _route: ActivatedRoute,
   private _router: Router,private _userService: UserService) {
@@ -73,7 +75,7 @@ export class ChartistJs {
   }
 
   private initSvg() {
-    this.svg = d3.select("svg");
+    this.svg = d3.select("svg")
     this.width = +this.svg.attr("width") - this.margin.left - this.margin.right;
     this.height = +this.svg.attr("height") - this.margin.top - this.margin.bottom;
     this.g = this.svg.append("g")
@@ -116,6 +118,21 @@ export class ChartistJs {
           .attr("height", (d) => this.height - this.y(d.frequency) );
   }
 
+  private download()
+  {
+    var html = d3.select("svg")
+        .attr("title", "Ventas")
+        .attr("version", 1.1)
+        .attr("xmlns", "http://www.w3.org/2000/svg")
+        .node().parentNode.innerHTML;
+
+      var imgsrc = 'data:image/svg+xml;base64,'+ btoa(html);
+      var img = '<img src="'+imgsrc+'">';
+      d3.select(this)
+          .html("Download");
+      console.log(img);
+
+  }
   public getFecha(){
     for(let i = 0; i <= 11; ++i) {
       this.service.getFecha(this.token,this.Fechas[i].inicio,this.Fechas[i].fin).subscribe(

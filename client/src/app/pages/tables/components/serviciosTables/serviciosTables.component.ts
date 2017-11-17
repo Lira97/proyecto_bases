@@ -108,7 +108,7 @@ export class serviciosTables {
     this.titulo = 'Inventario';
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
-
+    console.log(this.service.getData(this.token, 1))
     this.url = GLOBAL.url;
     this.next_page = 1;
     this.prev_page = 1;

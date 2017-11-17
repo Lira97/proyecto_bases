@@ -47,6 +47,7 @@ export class serviciosTablesService {
             if(res.status < 200 || res.status >= 300) {
               throw new Error('This request has failed ' + res.status);
             }else {
+              console.log(res.json().servicios)
               return res.json();
               }
         });

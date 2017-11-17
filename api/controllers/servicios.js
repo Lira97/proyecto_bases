@@ -41,7 +41,12 @@ function saveServicio(req, res) {//creamos la funcion para guardar nuevos servic
     servicio.Refacciones = params.Refacciones;
     servicio.baterias = params.baterias;
     servicio.tipo = params.tipo;
-
+    if (!servicio.Nservicio || !servicio.cliente || !servicio.nombreEmpleado || !servicio.localizacion  || !servicio.Refacciones||  !servicio.baterias||  !servicio.tipo )
+    {
+      return res.status(404).send({
+          message: 'Los datos no puede estar vacios'
+      });
+    }
     servicio.save((err, servicioStored) => {//La respuesta es un error entonces regresa un mensaje de error
         if(err) {
             res.status(500).send({

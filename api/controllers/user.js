@@ -17,6 +17,12 @@ function saveUser(req, res) {//creamos la funcion para guardar nuevos user
     user.seguro = params.seguro;
     user.age = params.age;
 
+    if (!user.id_empleado || !user.nombre || !user.email || !user.sueldo  || !user.role ||  !user.telefono || !user.seguro || !user.age )
+    {
+      return res.status(404).send({
+          message: 'Los datos no puede estar vacios'
+      });
+    }
 
     if(params.password) {
         // encriptar la contraseña

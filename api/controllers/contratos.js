@@ -40,6 +40,12 @@ function saveContrato(req, res) {//creamos la funcion para guardar nuevos contra
     contrato.telefono = params.telefono;
     contrato.servicios = params.servicios;
 
+    if (!contrato.id_contrato || !contrato.nombreEmpresa || !contrato.valor || !contrato.zona   || !contrato.telefono ||  !contrato.servicios )
+    {
+      return res.status(404).send({
+          message: 'Los datos no puede estar vacios'
+      });
+    }
     contrato.save((err, contratoStored) => {//La respuesta es un error entonces regresa un mensaje de error
         if(err) {
             res.status(500).send({
