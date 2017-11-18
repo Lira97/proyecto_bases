@@ -126,11 +126,29 @@ export class ChartistJs {
         .attr("xmlns", "http://www.w3.org/2000/svg")
         .node().parentNode.innerHTML;
 
-      var imgsrc = 'data:image/svg+xml;base64,'+ btoa(html);
-      var img = '<img src="'+imgsrc+'">';
-      d3.select(this)
-          .html("Download");
-      console.log(img);
+        var imgsrc = 'data:image/svg+xml;base64,'+ btoa(html);
+        var img = '<img src="'+imgsrc+'">';
+
+
+      var canvas = document.createElement('canvas');
+      canvas.width = this.width+50;
+      canvas.height = this.height+50;
+      var image = new Image;
+      image.src = imgsrc;
+      var context = canvas.getContext('2d');
+      image.onload = function() {
+      context.drawImage(image, 0, 0);
+
+      var canvasdata = canvas.toDataURL("image/png");
+
+      var pngimg = '<img src="'+canvasdata+'">';
+        d3.select("#pngdataurl").html(pngimg);
+
+      var a = document.createElement("a");
+      a.download = "Ventas_mes.png";
+      a.href = canvasdata;
+      a.click();
+};
 
   }
   public getFecha(){
