@@ -5,6 +5,8 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import { UserService } from './services/user.service';
+import { AuthGuard } from './services/auth.guard';
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -21,7 +23,9 @@ import { PagesModule } from './pages/pages.module';
 // Application wide providers
 const APP_PROVIDERS = [
   AppState,
-  GlobalState
+  GlobalState,
+  UserService,
+  AuthGuard
 ];
 
 export type StoreType = {

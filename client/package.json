@@ -56,6 +56,7 @@
     "angular2-csv": "^0.2.5",
     "angular2-datatable": "0.6.0",
     "angular2-flash-messages": "^1.0.8",
+    "angular2-jwt": "^0.2.3",
     "animate.css": "3.5.2",
     "bootstrap": "4.0.0-alpha.6",
     "chart.js": "^1.1.1",

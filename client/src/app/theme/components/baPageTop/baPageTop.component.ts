@@ -30,8 +30,8 @@ export class BaPageTop {
     this.isScrolled = isScrolled;
   }
   onLogoutClick(){
+    console.log('acaba');
     this._userService.logout();
-    this.router.navigate(['/login']);
-    return false;
+    //this.router.navigate(['/login']);
   }
 }

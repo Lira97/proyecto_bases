@@ -3,6 +3,7 @@ import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { GLOBAL } from './global'
+import { tokenNotExpired } from 'angular2-jwt';
 
 @Injectable()
 export class UserService {
@@ -54,6 +55,7 @@ export class UserService {
     }
 
     logout(){
+      console.log("acaba de salir ")
       localStorage.removeItem('identity');
       localStorage.removeItem('token');
       localStorage.clear();
@@ -61,5 +63,8 @@ export class UserService {
       this.token = null;
 
     }
+    loggedIn() {
+    return tokenNotExpired();
+  }
 
 }
