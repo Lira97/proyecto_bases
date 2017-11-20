@@ -9,7 +9,7 @@ import { UserService } from '../../../../services/user.service';
 
 import { User } from '../../../../models/users';
 
-
+import * as jsPDF from 'jspdf'
 
 @Component({
   selector: 'usuarios-tables',
@@ -119,6 +119,7 @@ export class usuariosTables {
     this.url = GLOBAL.url;
     this.next_page = 1;
     this.prev_page = 1;
+
   }
   ngOnInit() {
       console.log('artist-list.componenet.ts cargado');
@@ -170,6 +171,63 @@ export class usuariosTables {
           };
 
           new Angular2Csv(this.user, 'Inventario',options);
+  }
+
+  downloadPDF() {
+    this._route.params.forEach((params: Params) => {
+        let page = +params['page'];
+        page = 1
+
+        if(!page) {
+            page = 1;
+        }else {
+            this.next_page = page+1;
+            this.prev_page = page-1;
+
+            if(this.prev_page == 0) {
+                this.prev_page = 1;
+            }
+            this.service.getData(this.token, page).subscribe(
+                response => {
+
+                    if(!response.user) {
+                        this._router.navigate(['/datatables']);
+                    }else {
+                      var columns = [
+                          {title: "Email", dataKey: "email"},
+                          {title: "age", dataKey: "age"},
+                          {title: "id_empleado", dataKey: "id_empleado"},
+                          {title: "nombre", dataKey: "nombre"},
+                          {title: "password", dataKey: "password"},
+                          {title: "role", dataKey: "role"},
+                          {title: "seguro", dataKey: "seguro"},
+                          {title: "sueldo", dataKey: "sueldo"},
+                          {title: "telefono", dataKey: "telefono"}
+
+                      ];
+                      var rows = this.user
+                      console.log(this.user);
+                      var doc = new jsPDF('p', 'pt');
+                      doc.autoTable(columns, rows, {
+                      margin: {top: 60},
+                      addPageContent: function(data) {
+                      	doc.text("Usuarios", 40, 30);
+                      }
+                  });
+                      doc.save('table.pdf');
+                    }
+                },
+                error => {
+                    var errorMessage = <any>error;
+                    if(errorMessage != null) {
+                        var body = JSON.parse(error._body);
+                        console.log(errorMessage);
+                    }
+                }
+            );
+        }
+    });
+
   }
   getInventarios() {
       //obtengo parametros que vienen por la url

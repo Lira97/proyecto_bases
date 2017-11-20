@@ -41,6 +41,12 @@ function saveVenta(req, res) {//creamos la funcion para guardar nuevas ventas
     venta.fecha = params.fecha;
     venta.tipo = params.tipo;
 
+    if (!venta.Nventa || !venta.monto || !venta.nombreVendedor||!venta.comision ||!venta.cliente||!venta.fecha ||venta.tipo)
+    {
+      return res.status(404).send({
+          message: 'Los datos no puede estar vacios'
+      });
+    }
     venta.save((err, ventaStored) => {//La respuesta es un error entonces regresa un mensaje de error
         if(err) {
             res.status(500).send({

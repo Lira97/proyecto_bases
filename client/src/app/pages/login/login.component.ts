@@ -45,16 +45,15 @@ export class Login implements OnInit{
              .then(res => console.log(res) )
              .catch(e => console.log(e));
        }
- }
 
-  ngOnInit(){
+ngOnInit(){
     this.identity=this._userService.getIdentity();
     this.token=this._userService.getToken();
 
     console.log(this.identity);
     console.log(this.token)
   }
-public onSubmit(); {
+public onSubmit() {
   // Conseguir los datos del usuarios identificado
   this._userService.signup(this.user).subscribe(
     response => {
@@ -107,4 +106,5 @@ public onSubmit(); {
         }
     }
   );
+}
 }

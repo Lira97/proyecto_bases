@@ -30,7 +30,9 @@
         "../node_modules/handsontable/dist/handsontable.full.css",
         "../node_modules/ng2-slim-loading-bar/style.css",
         "app/theme/theme.scss",
-        "styles.scss"
+        "styles.scss",
+        "../node_modules/jspdf/dist/jspdf.min.js",
+        "../node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
