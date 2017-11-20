@@ -4,6 +4,7 @@ import { User } from '../../models/users';
 import { UserService } from '../../services/user.service';
 import { GLOBAL } from '../../services/global';
 import {Router} from '@angular/router';
+import { FacebookService,  LoginResponse, InitParams, LoginOptions } from 'ngx-facebook';
 
 @Component({
   selector: 'login',
@@ -20,19 +21,40 @@ export class Login implements OnInit{
   public alertRegister: string;
   public url: string;
 
-  constructor(private _userService:UserService,private router:Router
-    ) {
+  constructor(private _userService:UserService,private router:Router,private fb: FacebookService
+  ) {
 
-    this.user = new User('', '', '', '', '', 'Administrador', '', '', '');
-  }
-  ngOnInit() {
+          this.user = new User('', '', '', '', '', 'Administrador', '', '', '');
+
+                let initParams: InitParams = {
+                  appId: '910624799108846',
+                  xfbml: true,
+                  version: 'v2.11'
+                };
+
+                fb.init(initParams);
+        }
+
+        loginWithFacebook(): void {
+            this.fb.login()
+              .then((response: LoginResponse) => console.log(response))
+              .catch((error: any) => console.error(error));
+        }
+        facebookShowData(){
+             this.fb.api('/me')
+             .then(res => console.log(res) )
+             .catch(e => console.log(e));
+       }
+ }
+
+  ngOnInit(){
     this.identity=this._userService.getIdentity();
     this.token=this._userService.getToken();
 
     console.log(this.identity);
     console.log(this.token)
   }
-public onSubmit() {
+public onSubmit(); {
   // Conseguir los datos del usuarios identificado
   this._userService.signup(this.user).subscribe(
     response => {
@@ -85,5 +107,4 @@ public onSubmit() {
         }
     }
   );
-}
 }
