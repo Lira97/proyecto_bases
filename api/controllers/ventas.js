@@ -5,6 +5,9 @@ var fs = require('fs');
 var mongoosePaginate = require('mongoose-pagination');
 var ventas = require('../models/venta');
 var user = require('../models/users');
+var inventario = require('../models/inventario');
+var Vendedor = require('../models/vendedor');
+
 
 
 function getVenta(req, res) {//creamos la funcion para obtener una venta
@@ -34,6 +37,7 @@ function saveVenta(req, res) {//creamos la funcion para guardar nuevas ventas
     //regresamos lo valores del body y los igualamos a los del schema
     var params = req.body;
     venta.Nventa = params.Nventa;
+    venta.Idparte = params.Idparte;
     venta.monto = params.monto;
     venta.nombreVendedor = params.nombreVendedor;
     venta.comision = params.comision;
@@ -41,29 +45,46 @@ function saveVenta(req, res) {//creamos la funcion para guardar nuevas ventas
     venta.fecha = params.fecha;
     venta.tipo = params.tipo;
 
-    if (!venta.Nventa || !venta.monto || !venta.nombreVendedor||!venta.comision ||!venta.cliente||!venta.fecha ||venta.tipo)
+    var Idparte = params.Idparte;//Creamos una variable que guarde los parámetros del body
+
+    if (!venta.Nventa ||!venta.Idparte|| !venta.monto || !venta.nombreVendedor||!venta.comision ||!venta.cliente||!venta.fecha ||!venta.tipo)
     {
       return res.status(404).send({
           message: 'Los datos no puede estar vacios'
       });
     }
-    venta.save((err, ventaStored) => {//La respuesta es un error entonces regresa un mensaje de error
+
+    inventario.findByIdAndRemove(Idparte, (err, productRemoved) => {
         if(err) {
             res.status(500).send({
-                message: 'Error al guardar'
+                message: 'Error en la peticion'
             });
         }else {
-            if(ventaStored) {
-                res.status(200).send({//Si lo encuentra regresa el dato solicitado
-                    venta: ventaStored
+            if(!productRemoved) {
+                res.status(404).send({
+                    message: 'El articulo no se encuentra en el inventario'
                 });
             }else {
-                res.status(404).send({//Si no puede guardar el dato en la base de datos regresa un mensaje de error
-                    message: 'El venta no se pudo guardar'
-                });
+              venta.save((err, ventaStored) => {//La respuesta es un error entonces regresa un mensaje de error
+                  if(err) {
+                      res.status(500).send({
+                          message: 'Error al guardar'
+                      });
+                  }else {
+                      if(ventaStored) {
+                          res.status(200).send({//Si lo encuentra regresa el dato solicitado
+                              venta: ventaStored
+                          });
+                      }else {
+                          res.status(404).send({//Si no puede guardar el dato en la base de datos regresa un mensaje de error
+                              message: 'El venta no se pudo guardar'
+                          });
+                      }
+                  }
+              });
+              }
             }
-        }
-    });
+        });
 }
 
 function getVentas(req, res) {//creamos la funcion para obtener a las ventas
@@ -84,7 +105,7 @@ function getVentas(req, res) {//creamos la funcion para obtener a las ventas
         }else {
             if(!ventas) {//Si no encuentra el dato en la base de datos regresa un mensaje de error
                 res.status(404).send({
-                    message: 'No hay artistas'
+                    message: 'No hay venta'
                 });
             }else {
                 return res.status(200).send({//Si lo encuentra regresa el dato solicitado

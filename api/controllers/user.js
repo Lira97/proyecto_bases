@@ -2,6 +2,10 @@
 var bcrypt = require('bcrypt-nodejs');
 var User = require('../models/users');
 var jwt = require('../services/jwt');
+var Vendedor = require('../models/vendedor');
+var Ingeniero = require('../models/ingenieros');
+
+
 
 function saveUser(req, res) {//creamos la funcion para guardar nuevos user
     var user = new User();//Creamos una variable y la igualamos a un nuevo schema
@@ -17,12 +21,8 @@ function saveUser(req, res) {//creamos la funcion para guardar nuevos user
     user.seguro = params.seguro;
     user.age = params.age;
 
-    if (!user.id_empleado || !user.nombre || !user.email || !user.sueldo  || !user.role ||  !user.telefono || !user.seguro || !user.age )
-    {
-      return res.status(404).send({
-          message: 'Los datos no puede estar vacios'
-      });
-    }
+
+
 
     if(params.password) {
         // encriptar la contraseña
@@ -41,9 +41,80 @@ function saveUser(req, res) {//creamos la funcion para guardar nuevos user
                                 message: 'No se pudo registrar el usuario'
                             });
                         }else {
-                            res.status(200).send({//Si lo encuentra regresa el dato solicitado
-                                user: userStored
-                            });
+                            if(user.role == 'Vendedor')
+                            {
+                              var vendedor = new Vendedor();//Creamos una variable y la igualamos a un nuevo schema
+                              //regresamos lo valores del body y los igualamos a los del schema
+                              vendedor.Nclientes= "0"
+                              vendedor.user = user._id;
+                              if ( !vendedor.user )
+                              {
+                                return res.status(404).send({
+                                    message: 'Los datos '
+                                });
+                              }
+                              vendedor.save((err, vendedorStored) => {//La respuesta es un error entonces regresa un mensaje de error
+                                  if(err) {
+                                      res.status(500).send({
+                                          message: "Error en el servidor"
+                                      });
+                                  }else {
+                                      if(!vendedorStored) {
+                                          res.status(404).send({//Si no puede guardar el dato en la base de datos regresa un mensaje de error
+                                              message: "No se ha guardado el vendedor"
+                                          });
+                                      }else {
+                                          res.status(200).send({//Si lo encuentra regresa el dato solicitado
+                                              vendedor: vendedorStored ,
+                                               user: userStored
+                                          });
+                                      }
+                                  }
+                              });
+                            }
+
+                            if(user.role == 'Ingeniero')
+                            {
+                              var ingeniero = new Ingeniero();//Creamos una variable y la igualamos a un nuevo schema
+
+
+                              //regresamos lo valores del body y los igualamos a los del schema
+                              ingeniero.Nservicios="0"
+                              ingeniero.user = user._id;
+                              if (!ingeniero.Nservicios || !ingeniero.user )
+                              {
+                                return res.status(404).send({
+                                    message: 'Los datos no puede estar vacios'
+                                });
+                              }
+                              ingeniero.save((err, ingenieroStored) => {//La respuesta es un error entonces regresa un mensaje de error
+
+                                  if(err) {
+                                      res.status(500).send({
+                                          message: "Error en el servidor"
+                                      });
+                                  }else {
+                                      if(!ingenieroStored) {//Si lo encuentra regresa el dato solicitado
+                                          res.status(404).send({
+                                              message: "No se ha guardado el ingeniero"
+                                          });
+                                      }else {
+                                          res.status(200).send({//Si no puede guardar el dato en la base de datos regresa un mensaje de error
+                                              ingeniero: ingenieroStored,
+                                               user: userStored
+                                          });
+                                      }
+                                  }
+                              });
+                            }
+
+                            if(user.role == 'Administrador')
+                            {
+                              res.status(200).send({//Si lo encuentra regresa el dato solicitado
+                              user: userStored
+                              });
+
+                            }
                         }
                     }
                 });
