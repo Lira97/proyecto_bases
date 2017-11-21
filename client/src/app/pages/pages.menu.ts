@@ -6,7 +6,7 @@ export const PAGES_MENU = [
         path: 'dashboard',
         data: {
           menu: {
-            title: 'general.menu.dashboard',
+            title: 'Dashboard',
             icon: 'ion-android-home',
             selected: false,
             expanded: false,
@@ -31,6 +31,22 @@ export const PAGES_MENU = [
             data: {
               menu: {
                 title: 'Usuarios',
+              }
+            }
+          },
+          {
+            path: 'vendedortables',
+            data: {
+              menu: {
+                title: 'Vendedores',
+              }
+            }
+          },
+          {
+            path: 'ingenierotables',
+            data: {
+              menu: {
+                title: 'Ingenieros',
               }
             }
           },
@@ -69,28 +85,6 @@ export const PAGES_MENU = [
         ]
       },
       {
-        path: 'editors',
-        data: {
-          menu: {
-            title: 'general.menu.editors',
-            icon: 'ion-edit',
-            selected: false,
-            expanded: false,
-            order: 100,
-          }
-        },
-        children: [
-          {
-            path: 'ckeditor',
-            data: {
-              menu: {
-                title: 'general.menu.ck_editor',
-              }
-            }
-          }
-        ]
-      },
-      {
         path: 'charts',
         data: {
           menu: {
@@ -106,7 +100,7 @@ export const PAGES_MENU = [
             path: 'chartist-js',
             data: {
               menu: {
-                title: 'general.menu.chartist_js',
+                title: 'Graficas ventas ',
               }
             }
           }

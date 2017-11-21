@@ -6,9 +6,10 @@ import { SmartTables } from './components/smartTables/smartTables.component';
 import { ContratoTables } from './components/contratosTables/contratosTables.component';
 import { VentasTables } from './components/ventasTables/ventasTables.component';
 import { usuariosTables } from './components/usuariosTables/usuariosTables.component';
-import { DataTables } from './components/dataTables/dataTables.component';
-import { HotTablesComponent } from './components/hotTables/hotTables.component';
+import { VendedoresTables } from './components/vendedoresTables/vendedoresTables.component';
 import { serviciosTables } from './components/serviciosTables/serviciosTables.component';
+import { ingenieroTables } from './components/ingenieroTables/ingenieroTables.component';
+
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -21,8 +22,8 @@ const routes: Routes = [
       { path: 'usertables', component: usuariosTables },
       { path: 'smarttables', component: SmartTables },
       { path: 'ventastables', component: VentasTables },
-      { path: 'datatables', component: DataTables },
-      { path: 'hottables', component: HotTablesComponent }
+      { path: 'vendedortables', component: VendedoresTables },
+      { path: 'ingenierotables', component: ingenieroTables },
     ]
   }
 ];

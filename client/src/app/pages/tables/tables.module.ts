@@ -27,6 +27,12 @@ import { usuariosTablesService } from './components/usuariosTables/usuariosTable
 import { serviciosTables } from './components/serviciosTables/serviciosTables.component';
 import { serviciosTablesService } from './components/serviciosTables/serviciosTables.service';
 
+import { VendedoresTables } from './components/vendedoresTables/vendedoresTables.component';
+import { VendedoresTablesService } from './components/vendedoresTables/vendedoresTables.service';
+
+import { ingenieroTables } from './components/ingenieroTables/ingenieroTables.component';
+import { ingenieroTablesService } from './components/ingenieroTables/ingenieroTables.service';
+
 import { ContratoTables } from './components/contratosTables/contratosTables.component';
 import { ContratosTablesService } from './components/contratosTables/contratosTables.service';
 import { VentasTables } from './components/ventasTables/ventasTables.component';
@@ -69,6 +75,8 @@ import { AdvancedDemoComponent } from './components/hotTables/handsontable/advan
     usuariosTables,
     VentasTables,
     DataTables,
+    VendedoresTables,
+    ingenieroTables,
     DataFilterPipe,
     HotTablesComponent,
     HandsontableSectionComponent,
@@ -81,10 +89,12 @@ import { AdvancedDemoComponent } from './components/hotTables/handsontable/advan
   ],
   providers: [
     BasicTablesService,
+    VendedoresTablesService,
     usuariosTablesService,
     serviciosTablesService,
     ContratosTablesService,
     SmartTablesService,
+    ingenieroTablesService,
     VentasTablesService,
     DataTablesService
   ]
