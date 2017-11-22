@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var UserSchema = Schema({
    Nventa: Number,
    monto:Number,
-   nombreVendedor:{type:Schema.ObjectId,ref:'User'},
+   Idparte:{type:Schema.ObjectId,ref:'inventario'},
    comision:Number,
    cliente:String,
    fecha:String,

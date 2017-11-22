@@ -66,7 +66,7 @@ export class  VentasTablesService{
           .map(res => res.json());
   }
   getFecha(token,inicio,fin) {
-  
+
     let params = ({
         fechaInicio: inicio,
         fechaFin:fin
@@ -77,6 +77,23 @@ export class  VentasTablesService{
           });
       let options = new RequestOptions({headers: headers});
       return this._http.post(this.url + 'get-fechas',params, options)
+          .map(res => {
+            if(res.status < 200 || res.status >= 300) {
+              throw new Error('This request has failed ' + res.status);
+            }else {
+
+              return res.json();
+              }
+        });
+
+  }
+  allVentas(token) {
+      let headers = new Headers({
+          'Content-Type': 'application/json',
+          'Authorization': token
+          });
+      let options = new RequestOptions({headers: headers});
+      return this._http.get(this.url + 'allVentas', options)
           .map(res => {
             if(res.status < 200 || res.status >= 300) {
               throw new Error('This request has failed ' + res.status);

@@ -152,6 +152,7 @@ export class ChartistJs {
 
   }
   public getFecha(){
+    console.log("star")
     for(let i = 0; i <= 11; ++i) {
       this.service.getFecha(this.token,this.Fechas[i].inicio,this.Fechas[i].fin).subscribe(
                     data  =>  {

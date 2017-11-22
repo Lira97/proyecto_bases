@@ -58,28 +58,66 @@ export class serviciosTables {
     },
     columns: {
       _id: {
-        title: 'id_empleado',
+        title: 'id_servicio',
         type: 'number'
       },
-      comision: {
-        title: 'comision',
-        type: 'number'
+      tipo: {
+        title: 'tipo',
+        type: 'string',
+        editor: {
+        type: 'list',
+        config: {
+          list: [
+            { value: 'Limpieza', title: 'Limpieza' },
+            { value: 'Cambio de baterias', title: 'Cambio de baterias' },
+          ]
+        }
+      }
+      },
+      Refacciones:{
+        title: 'Refacciones',
+        type: 'string',
+        editor: {
+        type: 'list',
+        config: {
+          list: [
+            { value: 'Si', title: 'Si' },
+            { value: 'No', title: 'No' },
+          ]
+        }
+      }
+      },
+      baterias: {
+        title: 'baterias',
+        type: 'string',
+        editor: {
+        type: 'list',
+        config: {
+          list: [
+            { value: 'Si', title: 'Si' },
+            { value: 'No', title: 'No' },
+          ]
+        }
+      }
+      },
+      localizacion: {
+        title: 'localizacion',
+        type: 'string',
+        editor: {
+        type: 'list',
+        config: {
+          list: [
+            { value: 'Norte', title: 'Norte' },
+            { value: 'Centro', title: 'Centro' },
+            { value: 'Sur', title: 'Sur' },
+
+          ]
+        }
+      }
       },
       cliente: {
         title: 'cliente',
-        type: 'string'
-      },
-      fecha: {
-        title: 'fechas',
-        type: 'number'
-      },
-      Nventa: {
-        title: 'Nservicios',
-        type: 'number',
-      },
-      tipo: {
-        title: 'telefono',
-        type: 'number'
+        type: 'string',
       }
 
     }

@@ -13,5 +13,5 @@ api.get('/ventas/:page?', md_auth.ensureAuth, ventaController.getVentas);
 api.put('/update-ventas/:id', md_auth.ensureAuth, ventaController.updateVenta);
 api.delete('/delete-ventas/:id', md_auth.ensureAuth, ventaController.deleteVenta);
 api.post('/get-fechas', md_auth.ensureAuth, ventaController.getFechas);
-
+api.get('/allVentas/', md_auth.ensureAuth, ventaController.allventas);
 module.exports = api;

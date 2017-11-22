@@ -56,9 +56,9 @@ export class usuariosTables {
       confirmDelete: true
     },
     columns: {
-      id_empleado: {
+      _id: {
         title: 'id_empleado',
-        type: 'number'
+        type: 'string'
       },
       nombre: {
         title: 'nombre',

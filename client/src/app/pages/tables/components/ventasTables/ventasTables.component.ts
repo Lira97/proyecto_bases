@@ -59,13 +59,13 @@ export class VentasTables {
         title: 'Nventa',
         type: 'number'
       },
+      Idparte: {
+        title: 'Idparte',
+        type: 'string'
+      },
       monto: {
         title: 'Monto',
         type: 'number'
-      },
-      nombreVendedor: {
-        title: 'vendedor',
-        type: 'string'
       },
       comision: {
         title: 'comision',

@@ -34,14 +34,13 @@ function saveServicio(req, res) {//creamos la funcion para guardar nuevos servic
     var servicio = new servicios();//Creamos una variable y la igualamos a un nuevo schema
     //regresamos lo valores del body y los igualamos a los del schema
     var params = req.body;
-    servicio.Nservicio = params.Nservicio;
     servicio.cliente = params.cliente;
     servicio.nombreEmpleado = params.nombreEmpleado;
     servicio.localizacion = params.localizacion;
     servicio.Refacciones = params.Refacciones;
     servicio.baterias = params.baterias;
     servicio.tipo = params.tipo;
-    if (!servicio.Nservicio || !servicio.cliente || !servicio.nombreEmpleado || !servicio.localizacion  || !servicio.Refacciones||  !servicio.baterias||  !servicio.tipo )
+    if ( !servicio.cliente || !servicio.nombreEmpleado || !servicio.localizacion  || !servicio.Refacciones||  !servicio.baterias||  !servicio.tipo )
     {
       return res.status(404).send({
           message: 'Los datos no puede estar vacios'

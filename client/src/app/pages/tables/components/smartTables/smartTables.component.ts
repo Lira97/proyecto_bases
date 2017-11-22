@@ -57,6 +57,10 @@ export class SmartTables {
       confirmDelete: true
     },
     columns: {
+      _id: {
+        title: 'Nparte',
+        type: 'string'
+      },
       Nserie: {
         title: 'Nserie',
         type: 'number'
@@ -71,15 +75,7 @@ export class SmartTables {
       },
       serie: {
         title: 'serie',
-        type: 'string',
-        editor: {
-        type: 'list',
-        config: {
-          list: [
-            { value: 'gm', title: 'gm' },
-          ]
-        }
-      }
+        type: 'string'
       },
       modelo: {
         title: 'modelo',

@@ -39,7 +39,6 @@ function saveVenta(req, res) {//creamos la funcion para guardar nuevas ventas
     venta.Nventa = params.Nventa;
     venta.Idparte = params.Idparte;
     venta.monto = params.monto;
-    venta.nombreVendedor = params.nombreVendedor;
     venta.comision = params.comision;
     venta.cliente = params.cliente;
     venta.fecha = params.fecha;
@@ -47,7 +46,7 @@ function saveVenta(req, res) {//creamos la funcion para guardar nuevas ventas
 
     var Idparte = params.Idparte;//Creamos una variable que guarde los parámetros del body
 
-    if (!venta.Nventa ||!venta.Idparte|| !venta.monto || !venta.nombreVendedor||!venta.comision ||!venta.cliente||!venta.fecha ||!venta.tipo)
+    if (!venta.Nventa ||!venta.Idparte|| !venta.monto ||!venta.comision ||!venta.cliente||!venta.fecha ||!venta.tipo)
     {
       return res.status(404).send({
           message: 'Los datos no puede estar vacios'
@@ -186,11 +185,35 @@ function deleteVenta(req, res) {//creamos la funcion para eliminar a una venta
         });
 
     }
+    function allventas(req, res) {//creamos la funcion para obtener una venta
+      var params = req.body;
+
+        ventas.count({}, (err, venta) => {//Hacemos la llamada a la base de datos por medio del la función de findById
+            if(err) {
+                res.status(500).send({
+                    message: 'Error en la peticion'//La respuesta es un error entonces regresa un mensaje de error
+                });
+            }else {
+                if(!venta) {
+                    res.status(404).send({//Si no encuentra el dato en la base de datos regresa un mensaje de error
+                        venta
+                    });
+                }else {
+                    res.status(200).send({//Si lo encuentra regresa el dato solicitado
+
+                        venta
+                    });
+                }
+            }
+        });
+
+    }
 module.exports = {//exportamos todos los metodos
     getVenta,
     saveVenta,
     getVentas,
     updateVenta,
     deleteVenta,
-    getFechas
+    getFechas,
+    allventas
 };
