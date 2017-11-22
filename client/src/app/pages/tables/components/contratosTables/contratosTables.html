@@ -1,12 +1,33 @@
-<div class="widgets">
-
+<div class="widgets" *ngIf="identity && identity.role =='Administrador'" >
   <div class="row">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
     <ba-card cardTitle="Inventario" baCardClass="with-scroll" class="smart-table-container">
+      <div>
+        <div *ngIf="errorMessage">
+          <div class="alert alert-info">
+            <strong></strong>{{errorMessage}}
+          </div>
+        </div>
+      <button type="CVS" class="btn btn-success" (click)="download()">Download CVS</button>
+      <button type="PDF" class="btn btn-danger" (click)="downloadPDF()">Download PDF</button>
+      </div>
       <ng2-smart-table [settings]="settings" [source]="source"
       (deleteConfirm)="onDeleteConfirm($event)"
       (editConfirm)="onSaveConfirm($event)"
-      (createConfirm)="onCreateConfirm($event)"></ng2-smart-table>
+      (createConfirm)="onCreateConfirm($event)" ></ng2-smart-table>
     </ba-card>
   </div>
+</div>
+<div class="widgets" *ngIf="identity.role !='Administrador'" >
 
+  <div class="row">
+    <ba-card cardTitle="Inventario" baCardClass="with-scroll" class="smart-table-container">
+      <h1>No tienes permisos para modificar las tablas</h1>
+      <div>
+      <button type="CVS" class="btn btn-success" (click)="download()"> CVS</button>
+      <button type="PDF" class="btn btn-danger" (click)="downloadPDF()">Download PDF</button>
+      </div>
+      <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+    </ba-card>
+  </div>
 </div>

@@ -8,6 +8,7 @@ import { GLOBAL } from '../../../../services/global';
 import { UserService } from '../../../../services/user.service';
 
 import { Servicio } from '../../../../models/servicios';
+import * as jsPDF from 'jspdf'
 
 
 
@@ -56,39 +57,25 @@ export class serviciosTables {
       confirmDelete: true
     },
     columns: {
-      Nservicio: {
+      _id: {
         title: 'id_empleado',
         type: 'number'
       },
-      cliente: {
-        title: 'nombre',
-        type: 'string'
-      },
-      nombreEmpleado: {
-        title: 'email',
-        type: 'string'
-      },
-      localizacion: {
-        title: 'password',
-        type: 'string'
-      },
-      Refacciones: {
-        title: 'sueldo',
+      comision: {
+        title: 'comision',
         type: 'number'
       },
-      baterias: {
-        title: 'role',
-        type: 'string',
-        editor: {
-        type: 'list',
-        config: {
-          list: [
-            { value: 'Administrador', title: 'Administrador' },
-            { value: 'Ingeniero', title: 'Ingeniero' },
-            { value: 'Vendedor', title: 'Vendedor' },
-          ]
-        }
-      }
+      cliente: {
+        title: 'cliente',
+        type: 'string'
+      },
+      fecha: {
+        title: 'fechas',
+        type: 'number'
+      },
+      Nventa: {
+        title: 'Nservicios',
+        type: 'number',
       },
       tipo: {
         title: 'telefono',
@@ -136,7 +123,7 @@ export class serviciosTables {
             this.service.getData(this.token, page).subscribe(
                 response => {
 
-                    if(!response.servicio) {
+                    if(!response.servicios) {
                         this._router.navigate(['/datatables']);
                     }else {
                       this.servicio = response.servicio;
@@ -162,7 +149,63 @@ export class serviciosTables {
           showTitle: true
           };
 
-          new Angular2Csv(this.servicio, 'Inventario',options);
+          new Angular2Csv(this.servicio, 'Servicios',options);
+  }
+  downloadPDF() {
+    this._route.params.forEach((params: Params) => {
+        let page = +params['page'];
+        page = 1
+
+        if(!page) {
+            page = 1;
+        }else {
+            this.next_page = page+1;
+            this.prev_page = page-1;
+
+            if(this.prev_page == 0) {
+                this.prev_page = 1;
+            }
+            this.service.getData(this.token, page).subscribe(
+                response => {
+
+
+                    if(!response.servicios) {
+                        this._router.navigate(['/datatables']);
+                    }else {
+                      var columns = [
+                        {title: "Nventa", dataKey: "Nventa"},
+                        {title: "monto", dataKey: "monto"},
+                        {title: "vendedor", dataKey: "vendedor"},
+                        {title: "comision", dataKey: "comision"},
+                        {title: "cliente", dataKey: "cliente"},
+                        {title: "fecha", dataKey: "fecha"},
+                        {title: "tipo", dataKey: "tipo"}
+
+
+                      ];
+                      var rows = this.servicio
+                      console.log(this.servicio);
+                      var doc = new jsPDF('p', 'pt');
+                      doc.autoTable(columns, rows, {
+                      margin: {top: 60},
+                      addPageContent: function(data) {
+                        doc.text("Vendedores", 40, 30);
+                      }
+                  });
+                      doc.save('table.pdf');
+                    }
+                },
+                error => {
+                    var errorMessage = <any>error;
+                    if(errorMessage != null) {
+                        var body = JSON.parse(error._body);
+                        console.log(errorMessage);
+                    }
+                }
+            );
+        }
+    });
+
   }
   getInventarios() {
       //obtengo parametros que vienen por la url

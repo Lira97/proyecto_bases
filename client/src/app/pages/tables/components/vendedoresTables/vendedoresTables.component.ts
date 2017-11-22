@@ -9,7 +9,7 @@ import { UserService } from '../../../../services/user.service';
 
 import { Vendedores } from '../../../../models/vendedores';
 
-
+import * as jsPDF from 'jspdf'
 
 @Component({
   selector: 'vendedores-tables',
@@ -54,9 +54,9 @@ export class VendedoresTables {
       confirmDelete: true
     },
     columns: {
-      'user._id': {
+      '_id': {
        title: 'ID',
-       valuePrepareFunction: (cell, row) => { return row.user.id_empleado}
+       type: 'string'
           },
       Nclientes:{
         title: 'Nclientes',
@@ -129,6 +129,102 @@ export class VendedoresTables {
           }
       });
       console.log(this.vendedores);
+  }
+  download() {
+    this._route.params.forEach((params: Params) => {
+        let page = +params['page'];
+        page = 1
+
+        if(!page) {
+            page = 1;
+        }else {
+            this.next_page = page+1;
+            this.prev_page = page-1;
+
+            if(this.prev_page == 0) {
+                this.prev_page = 1;
+            }
+            this.service.getData(this.token, page).subscribe(
+                response => {
+
+                    if(!response.vendedor) {
+                        this._router.navigate(['/datatables']);
+                    }else {
+                      console.log(response);
+                        this.vendedores = response.vendedor;
+                        this.source.load(response.vendedor);
+                        console.log(this.source);
+                    }
+                },
+                error => {
+                    var errorMessage = <any>error;
+                    if(errorMessage != null) {
+                        var body = JSON.parse(error._body);
+                        console.log(errorMessage);
+                    }
+                }
+            );
+        }
+    });
+          var options = {
+          fieldSeparator: ',',
+          quoteStrings: '"',
+          decimalseparator: '.',
+          showLabels: true,
+          showTitle: true
+          };
+
+          new Angular2Csv(this.vendedores , 'Vendedores',options);
+  }
+  downloadPDF() {
+    this._route.params.forEach((params: Params) => {
+        let page = +params['page'];
+        page = 1
+
+        if(!page) {
+            page = 1;
+        }else {
+            this.next_page = page+1;
+            this.prev_page = page-1;
+
+            if(this.prev_page == 0) {
+                this.prev_page = 1;
+            }
+            this.service.getData(this.token, page).subscribe(
+                response => {
+
+
+                    if(!response.vendedor) {
+                        this._router.navigate(['/datatables']);
+                    }else {
+                      var columns = [
+                          {title: "ID", dataKey: "_id"},
+                          {title: "Nclientes", dataKey: "Nclientes"}
+
+                      ];
+                      var rows = this.vendedores
+                      console.log(this.vendedores);
+                      var doc = new jsPDF('p', 'pt');
+                      doc.autoTable(columns, rows, {
+                      margin: {top: 60},
+                      addPageContent: function(data) {
+                        doc.text("Vendedores", 40, 30);
+                      }
+                  });
+                      doc.save('table.pdf');
+                    }
+                },
+                error => {
+                    var errorMessage = <any>error;
+                    if(errorMessage != null) {
+                        var body = JSON.parse(error._body);
+                        console.log(errorMessage);
+                    }
+                }
+            );
+        }
+    });
+
   }
   onSaveConfirm(event) {
     if (window.confirm('Are you sure you want to change?')) {

@@ -10,6 +10,7 @@ import { UserService } from '../../../../services/user.service';
 
 import { Contrato } from '../../../../models/contratos';
 
+import * as jsPDF from 'jspdf'
 
 
 @Component({
@@ -54,7 +55,7 @@ export class ContratoTables {
       confirmDelete: true
     },
     columns: {
-      id_contrato: {
+      _id: {
         title: 'id_contrato',
         type: 'number'
       },
@@ -139,6 +140,107 @@ export class ContratoTables {
               );
           }
       });
+  }
+  download() {
+    //obtengo parametros que vienen por la url
+    this._route.params.forEach((params: Params) => {
+        let page = +params['page'];
+        page = 1
+
+        if(!page) {
+            page = 1;
+        }else {
+            this.next_page = page+1;
+            this.prev_page = page-1;
+
+            if(this.prev_page == 0) {
+                this.prev_page = 1;
+            }
+            this.service.getData(this.token, page).subscribe(
+                response => {
+
+                    if(!response.contratos) {
+                        this._router.navigate(['/datatables']);
+                    }else {
+                      console.log(response);
+                        this.contratos = response.contratos;
+
+                    }
+                },
+                error => {
+                    var errorMessage = <any>error;
+                    if(errorMessage != null) {
+                        var body = JSON.parse(error._body);
+                        console.log(errorMessage);
+                    }
+                }
+            );
+        }
+    });
+          var options = {
+          fieldSeparator: ',',
+          quoteStrings: '"',
+          decimalseparator: '.',
+          showLabels: true,
+          showTitle: true
+          };
+
+          new Angular2Csv(this.contratos , 'Contratos',options);
+  }
+  downloadPDF() {
+    this._route.params.forEach((params: Params) => {
+        let page = +params['page'];
+        page = 1
+
+        if(!page) {
+            page = 1;
+        }else {
+            this.next_page = page+1;
+            this.prev_page = page-1;
+
+            if(this.prev_page == 0) {
+                this.prev_page = 1;
+            }
+            this.service.getData(this.token, page).subscribe(
+                response => {
+
+
+                    if(!response.contratos) {
+                        this._router.navigate(['/datatables']);
+                    }else {
+                      var columns = [
+                          {title: "id_contrato", dataKey: "id_contrato"},
+                          {title: "nombreEmpresa", dataKey: "nombreEmpresa"},
+                          {title: "servicios", dataKey: "servicios"},
+                          {title: "telefono", dataKey: "telefono"},
+                          {title: "valor", dataKey: "valor"},
+                          {title: "zona", dataKey: "zona"}
+
+
+                      ];
+                      var rows = this.contratos
+                      console.log(this.contratos);
+                      var doc = new jsPDF('p', 'pt');
+                      doc.autoTable(columns, rows, {
+                      margin: {top: 60},
+                      addPageContent: function(data) {
+                        doc.text("Ventas", 40, 30);
+                      }
+                  });
+                      doc.save('table.pdf');
+                    }
+                },
+                error => {
+                    var errorMessage = <any>error;
+                    if(errorMessage != null) {
+                        var body = JSON.parse(error._body);
+                        console.log(errorMessage);
+                    }
+                }
+            );
+        }
+    });
+
   }
   onSaveConfirm(event) {
     if (window.confirm('Are you sure you want to change?')) {

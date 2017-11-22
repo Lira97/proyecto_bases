@@ -8,6 +8,7 @@ import { GLOBAL } from '../../../../services/global';
 import { UserService } from '../../../../services/user.service';
 
 import { Venta } from '../../../../models/ventas';
+import * as jsPDF from 'jspdf'
 
 
 
@@ -59,7 +60,7 @@ export class VentasTables {
         type: 'number'
       },
       monto: {
-        title: 'Empresa',
+        title: 'Monto',
         type: 'number'
       },
       nombreVendedor: {
@@ -103,7 +104,7 @@ export class VentasTables {
     this.prev_page = 1;
   }
   ngOnInit() {
-    
+
       console.log(this.identity);
       console.log(this.token);
       // Conseguir el listado de artista
@@ -146,6 +147,109 @@ export class VentasTables {
           }
       });
       console.log(this.ventas);
+  }
+  download() {
+    //obtengo parametros que vienen por la url
+    this._route.params.forEach((params: Params) => {
+        let page = +params['page'];
+        page = 1
+
+        if(!page) {
+            page = 1;
+        }else {
+            this.next_page = page+1;
+            this.prev_page = page-1;
+
+            if(this.prev_page == 0) {
+                this.prev_page = 1;
+            }
+            this.service.getData(this.token, page).subscribe(
+                response => {
+
+                    if(!response.ventas) {
+                        this._router.navigate(['/datatables']);
+                    }else {
+                      console.log(response);
+                        this.ventas = response.ventas;
+                        this.source.load(response.ventas);
+                        console.log(this.source);
+                    }
+                },
+                error => {
+                    var errorMessage = <any>error;
+                    if(errorMessage != null) {
+                        var body = JSON.parse(error._body);
+                        console.log(errorMessage);
+                    }
+                }
+            );
+        }
+    });
+          var options = {
+          fieldSeparator: ',',
+          quoteStrings: '"',
+          decimalseparator: '.',
+          showLabels: true,
+          showTitle: true
+          };
+
+          new Angular2Csv(this.ventas , 'Ventas',options);
+  }
+  downloadPDF() {
+    this._route.params.forEach((params: Params) => {
+        let page = +params['page'];
+        page = 1
+
+        if(!page) {
+            page = 1;
+        }else {
+            this.next_page = page+1;
+            this.prev_page = page-1;
+
+            if(this.prev_page == 0) {
+                this.prev_page = 1;
+            }
+            this.service.getData(this.token, page).subscribe(
+                response => {
+
+
+                    if(!response.ventas) {
+                        this._router.navigate(['/datatables']);
+                    }else {
+                      var columns = [
+                          {title: "Nventa", dataKey: "Nventa"},
+                          {title: "monto", dataKey: "monto"},
+                          {title: "vendedor", dataKey: "vendedor"},
+                          {title: "comision", dataKey: "comision"},
+                          {title: "cliente", dataKey: "cliente"},
+                          {title: "fecha", dataKey: "fecha"},
+                          {title: "tipo", dataKey: "tipo"}
+
+
+                      ];
+                      var rows = this.ventas
+                      console.log(this.ventas);
+                      var doc = new jsPDF('p', 'pt');
+                      doc.autoTable(columns, rows, {
+                      margin: {top: 60},
+                      addPageContent: function(data) {
+                        doc.text("Ventas", 40, 30);
+                      }
+                  });
+                      doc.save('table.pdf');
+                    }
+                },
+                error => {
+                    var errorMessage = <any>error;
+                    if(errorMessage != null) {
+                        var body = JSON.parse(error._body);
+                        console.log(errorMessage);
+                    }
+                }
+            );
+        }
+    });
+
   }
   onSaveConfirm(event) {
     if (window.confirm('Are you sure you want to change?')) {

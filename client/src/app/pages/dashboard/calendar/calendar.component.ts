@@ -52,12 +52,14 @@ export class Calendar {
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
     this.url = GLOBAL.url;
-
-  }
-  ngOnInit(){
     this.getInventarios();
-    console.log(this.datos);
- }
+  //this.calendarConfiguration = this.data;
+    //this.calendarConfiguration.select = (start, end) => this._onSelect(start, end);
+  }
+  ngOnInit() {
+    console.log(this.data)
+    this.calendarConfiguration = this.data;
+  }
   getInventarios() {
       let page = 1
               this.service.getData(this.token, page).subscribe(
@@ -66,9 +68,10 @@ export class Calendar {
                       if(!response.servicios) {
                           //this._router.navigate(['/datatables']);
                       }else {
-                          this.datos = response
-                          console.log(this.datos)
-
+                          this.datos = response.servicios
+                          this.datos[19].fecha = this.data.events[0].start
+                          console.log(this.data)
+                          
                       }
                   },
                   error => {
@@ -82,7 +85,6 @@ export class Calendar {
   }
   public onCalendarReady(calendar):void {
     this._calendar = calendar;
-
   }
 
   private _onSelect(start, end):void {

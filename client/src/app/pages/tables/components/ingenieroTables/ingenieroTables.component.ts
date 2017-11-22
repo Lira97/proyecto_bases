@@ -9,7 +9,7 @@ import { UserService } from '../../../../services/user.service';
 
 import { Ingeniero } from '../../../../models/ingeniero';
 
-
+import * as jsPDF from 'jspdf'
 
 @Component({
   selector: 'ingeniero-tables',
@@ -54,9 +54,9 @@ export class ingenieroTables {
       confirmDelete: true
     },
     columns: {
-      'user._id': {
+      _id: {
        title: 'ID',
-       valuePrepareFunction: (cell, row) => { return row.user.id_empleado}
+       type: 'string'
           },
       Nservicios:{
         title: 'Nservicios',
@@ -155,7 +155,104 @@ export class ingenieroTables {
     event.confirm.reject();
   }
   }
+  download() {
+    //obtengo parametros que vienen por la url
+    this._route.params.forEach((params: Params) => {
+        let page = +params['page'];
+        page = 1
 
+        if(!page) {
+            page = 1;
+        }else {
+            this.next_page = page+1;
+            this.prev_page = page-1;
+
+            if(this.prev_page == 0) {
+                this.prev_page = 1;
+            }
+            this.service.getData(this.token, page).subscribe(
+                response => {
+
+                    if(!response.ingeniero) {
+                        this._router.navigate(['/datatables']);
+                    }else {
+
+                        this.ingeniero = response.ingeniero;
+
+                        console.log(this.source);
+                    }
+                },
+                error => {
+                    var errorMessage = <any>error;
+                    if(errorMessage != null) {
+                        var body = JSON.parse(error._body);
+                        console.log(errorMessage);
+                    }
+                }
+            );
+        }
+    });
+          var options = {
+          fieldSeparator: ',',
+          quoteStrings: '"',
+          decimalseparator: '.',
+          showLabels: true,
+          showTitle: true
+          };
+
+          new Angular2Csv(this.ingeniero , 'Ingeniero',options);
+  }
+  downloadPDF() {
+    this._route.params.forEach((params: Params) => {
+        let page = +params['page'];
+        page = 1
+
+        if(!page) {
+            page = 1;
+        }else {
+            this.next_page = page+1;
+            this.prev_page = page-1;
+
+            if(this.prev_page == 0) {
+                this.prev_page = 1;
+            }
+            this.service.getData(this.token, page).subscribe(
+                response => {
+
+
+                    if(!response.ingeniero) {
+                        this._router.navigate(['/datatables']);
+                    }else {
+                      var columns = [
+                        {title: "ID", dataKey: "_id"},
+                        {title: "Nservicios", dataKey: "Nservicios"}
+
+
+                      ];
+                      var rows = this.ingeniero
+                      console.log(this.ingeniero);
+                      var doc = new jsPDF('p', 'pt');
+                      doc.autoTable(columns, rows, {
+                      margin: {top: 60},
+                      addPageContent: function(data) {
+                        doc.text("Ventas", 40, 30);
+                      }
+                  });
+                      doc.save('table.pdf');
+                    }
+                },
+                error => {
+                    var errorMessage = <any>error;
+                    if(errorMessage != null) {
+                        var body = JSON.parse(error._body);
+                        console.log(errorMessage);
+                    }
+                }
+            );
+        }
+    });
+
+  }
   onCreateConfirm(event) {
     if (window.confirm('Are you sure you want to create?')) {
       console.log(event.newData);

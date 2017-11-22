@@ -9,6 +9,7 @@ import { UserService } from '../../../../services/user.service';
 
 import { Inventario } from '../../../../models/inventario';
 
+import * as jsPDF from 'jspdf'
 
 
 @Component({
@@ -152,6 +153,60 @@ export class SmartTables {
           };
 
           new Angular2Csv(this.inventario, 'Inventario',options);
+  }
+
+  downloadPDF() {
+    this._route.params.forEach((params: Params) => {
+        let page = +params['page'];
+        page = 1
+
+        if(!page) {
+            page = 1;
+        }else {
+            this.next_page = page+1;
+            this.prev_page = page-1;
+
+            if(this.prev_page == 0) {
+                this.prev_page = 1;
+            }
+            this.service.getData(this.token, page).subscribe(
+                response => {
+
+
+                    if(!response.products) {
+                        this._router.navigate(['/datatables']);
+                    }else {
+                      var columns = [
+                          {title: "Nserie", dataKey: "Nserie"},
+                          {title: "cantidad", dataKey: "cantidad"},
+                          {title: "capacidad", dataKey: "capacidad"},
+                          {title: "modelo", dataKey: "modelo"},
+                          {title: "serie", dataKey: "serie"}
+
+                      ];
+                      var rows = this.inventario
+                      console.log(this.inventario);
+                      var doc = new jsPDF('p', 'pt');
+                      doc.autoTable(columns, rows, {
+                      margin: {top: 60},
+                      addPageContent: function(data) {
+                        doc.text("inventario", 40, 30);
+                      }
+                  });
+                      doc.save('inventario.pdf');
+                    }
+                },
+                error => {
+                    var errorMessage = <any>error;
+                    if(errorMessage != null) {
+                        var body = JSON.parse(error._body);
+                        console.log(errorMessage);
+                    }
+                }
+            );
+        }
+    });
+
   }
   getInventarios() {
       //obtengo parametros que vienen por la url
