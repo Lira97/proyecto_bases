@@ -13,5 +13,6 @@ api.post('/save-contrato', md_auth.ensureAuth, contratoController.saveContrato);
 api.get('/contratos/:page?', md_auth.ensureAuth, contratoController.getContratos);
 api.put('/update-contrato/:id', md_auth.ensureAuth, contratoController.updateContrato);
 api.delete('/delete-contrato/:id', md_auth.ensureAuth, contratoController.deleteContrato);
+api.get('/allcontratos', md_auth.ensureAuth, contratoController.allcontratos);
 
 module.exports = api;

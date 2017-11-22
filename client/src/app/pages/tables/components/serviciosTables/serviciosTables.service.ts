@@ -63,6 +63,23 @@ export class serviciosTablesService {
       return this._http.delete(this.url + 'delete-servicio/'+id, options)
           .map(res => res.json());
   }
+  allServicios(token) {
+      let headers = new Headers({
+          'Content-Type': 'application/json',
+          'Authorization': token
+          });
+      let options = new RequestOptions({headers: headers});
+      return this._http.get(this.url + 'allservicio', options)
+          .map(res => {
+            if(res.status < 200 || res.status >= 300) {
+              throw new Error('This request has failed ' + res.status);
+            }else {
+
+              return res.json();
+              }
+        });
+
+  }
 
   metricsTableData = [
     {

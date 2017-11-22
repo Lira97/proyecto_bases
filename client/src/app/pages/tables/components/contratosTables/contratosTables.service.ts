@@ -66,6 +66,24 @@ export class ContratosTablesService {
       return this._http.delete(this.url + 'delete-contrato/'+id, options)
           .map(res => res.json());
   }
+
+  allContratos(token) {
+      let headers = new Headers({
+          'Content-Type': 'application/json',
+          'Authorization': token
+          });
+      let options = new RequestOptions({headers: headers});
+      return this._http.get(this.url + 'allContratos', options)
+          .map(res => {
+            if(res.status < 200 || res.status >= 300) {
+              throw new Error('This request has failed ' + res.status);
+            }else {
+
+              return res.json();
+              }
+        });
+
+  }
   smartTableData = [
     {
       id: 1,

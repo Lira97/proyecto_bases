@@ -12,5 +12,6 @@ api.post('/save-servicio', md_auth.ensureAuth, serviciosController.saveServicio)
 api.get('/servicios/:page?', md_auth.ensureAuth, serviciosController.getServicios);
 api.put('/update-servicio/:id', md_auth.ensureAuth, serviciosController.updateServicio);
 api.delete('/delete-servicio/:id', md_auth.ensureAuth, serviciosController.deleteServicio);
+api.get('/allservicio/', md_auth.ensureAuth, serviciosController.allservicios);
 
 module.exports = api;

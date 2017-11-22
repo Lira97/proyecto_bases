@@ -136,11 +136,35 @@ function deleteServicio(req, res) {//creamos la funcion para eliminar a un servi
             }
         });
     }
+    function allservicios(req, res) {//creamos la funcion para obtener una venta
+      var params = req.body;
+
+        servicios.count({}, (err, servicios) => {//Hacemos la llamada a la base de datos por medio del la función de findById
+            if(err) {
+                res.status(500).send({
+                    message: 'Error en la peticion'//La respuesta es un error entonces regresa un mensaje de error
+                });
+            }else {
+                if(!servicios) {
+                    res.status(404).send({//Si no encuentra el dato en la base de datos regresa un mensaje de error
+                        servicios
+                    });
+                }else {
+                    res.status(200).send({//Si lo encuentra regresa el dato solicitado
+
+                        servicios
+                    });
+                }
+            }
+        });
+
+    }
 
 module.exports = {//exportamos todos los metodos
     getServicio,
     saveServicio,
     getServicios,
     updateServicio,
-    deleteServicio
+    deleteServicio,
+    allservicios
 };

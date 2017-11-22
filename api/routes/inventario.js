@@ -13,5 +13,6 @@ api.post('/save-producto', md_auth.ensureAuth, inventarioController.saveProduct)
 api.get('/inventarios/:page?', md_auth.ensureAuth, inventarioController.getProducts);
 api.put('/update-inventario/:id', md_auth.ensureAuth, inventarioController.updateInventario);
 api.delete('/delete-inventario/:id', md_auth.ensureAuth, inventarioController.deleteProduct);
+api.get('/allinventario/', md_auth.ensureAuth, inventarioController.allinventarios);
 
 module.exports = api;

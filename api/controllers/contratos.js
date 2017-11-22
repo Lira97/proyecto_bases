@@ -137,11 +137,35 @@ function deleteContrato(req, res) {//creamos la funcion para eliminar a un contr
             }
         });
     }
+    function allcontratos(req, res) {//creamos la funcion para obtener una venta
+      var params = req.body;
+
+        contratos.count({}, (err, contratos) => {//Hacemos la llamada a la base de datos por medio del la función de findById
+            if(err) {
+                res.status(500).send({
+                    message: 'Error en la peticion'//La respuesta es un error entonces regresa un mensaje de error
+                });
+            }else {
+                if(!contratos) {
+                    res.status(404).send({//Si no encuentra el dato en la base de datos regresa un mensaje de error
+                        contratos
+                    });
+                }else {
+                    res.status(200).send({//Si lo encuentra regresa el dato solicitado
+
+                        contratos
+                    });
+                }
+            }
+        });
+
+    }
 
 module.exports = {//exportamos todos los metodos
     getContrato,
     saveContrato,
     getContratos,
     updateContrato,
-    deleteContrato
+    deleteContrato,
+    allcontratos
 };

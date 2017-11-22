@@ -137,11 +137,35 @@ function deleteProduct(req, res) {
             }
         });
     }
+    function allinventarios(req, res) {//creamos la funcion para obtener una venta
+      var params = req.body;
+
+        inventario.count({}, (err, inventario) => {//Hacemos la llamada a la base de datos por medio del la función de findById
+            if(err) {
+                res.status(500).send({
+                    message: 'Error en la peticion'//La respuesta es un error entonces regresa un mensaje de error
+                });
+            }else {
+                if(!inventario) {
+                    res.status(404).send({//Si no encuentra el dato en la base de datos regresa un mensaje de error
+                        inventario
+                    });
+                }else {
+                    res.status(200).send({//Si lo encuentra regresa el dato solicitado
+
+                        inventario
+                    });
+                }
+            }
+        });
+
+    }
 
 module.exports = {
     getProduct,
     saveProduct,
     getProducts,
     updateInventario,
-    deleteProduct
+    deleteProduct,
+    allinventarios
 };

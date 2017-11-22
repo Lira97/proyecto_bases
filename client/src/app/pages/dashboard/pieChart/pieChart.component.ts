@@ -1,5 +1,9 @@
 import {Component} from '@angular/core';
 import { VentasTablesService } from '../../tables/components/ventasTables/ventasTables.service';
+import { serviciosTablesService } from '../../tables/components/serviciosTables/serviciosTables.service';
+import { SmartTablesService } from '../../tables/components/smartTables/smartTables.service';
+import { ContratosTablesService } from '../../tables/components/contratosTables/contratosTables.service';
+
 import { UserService } from '../../../services/user.service';
 import { GLOBAL } from '../../../services/global';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -13,7 +17,7 @@ import 'easy-pie-chart/dist/jquery.easypiechart.js';
   selector: 'pie-chart',
   templateUrl: './pieChart.html',
   styleUrls: ['./pieChart.scss'],
-  providers: [UserService, VentasTablesService]
+  providers: [UserService, VentasTablesService,serviciosTablesService,SmartTablesService,ContratosTablesService]
 })
 // TODO: move easypiechart to component
 export class PieChart {
@@ -27,36 +31,107 @@ export class PieChart {
   public data = [{
     color:"rgba(255,255,255,80)",
     description: 'Ventas',
-    stats: '57',
+    stats: '0',
     icon: 'person',
   }, {
     color:"rgba(255,255,255,0.8)",
     description: 'Contratos',
-    stats: '89',
+    stats: '0',
     icon: 'money',
   }, {
     color:"rgba(255,255,255,0.8)",
     description: 'Productos',
-    stats: '178',
+    stats: '0',
     icon: 'face',
   }, {
     color:"rgba(255,255,255,0.8)",
     description: 'Servicios',
-    stats: '32',
+    stats: '0',
     icon: 'refresh',
   }]
   constructor(private _pieChartService: PieChartService,
     protected service: VentasTablesService,
+    protected serviceContratos: ContratosTablesService,
+    protected serviceInventario: SmartTablesService,
+    protected serviceServicios: serviciosTablesService,
     private _userService: UserService,
     private _route: ActivatedRoute,
-    private _router: Router,) {
+    private _router: Router,
+  ) {
     //this.charts = this._pieChartService.getData();
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
     this.url = GLOBAL.url;
     this.charts = this.data;
     this.getVentas();
+    this.getContratos();
+    this.getinventario();
+    this.getServicios();
   }
+  getServicios() {
+    this.serviceServicios.allServicios(this.token).subscribe(
+                  response => {
+
+                      if(!response.servicios) {
+                          //this._router.navigate(['/datatables']);
+                      }else {
+                        console.log(response.servicios)
+                          this.data[3].stats = response.servicios
+                          console.log(response.servicios)
+                      }
+                  },
+                  error => {
+                      var errorMessage = <any>error;
+                      if(errorMessage != null) {
+                          var body = JSON.parse(error._body);
+                          console.log(errorMessage);
+                      }
+                  }
+              );
+  }
+  getContratos() {
+    this.serviceContratos.allContratos(this.token).subscribe(
+                  response => {
+
+                      if(!response.contratos) {
+                          //this._router.navigate(['/datatables']);
+                      }else {
+                        console.log(response.contratos)
+                          this.data[1].stats = response.contratos
+                          console.log(response.contratos)
+                      }
+                  },
+                  error => {
+                      var errorMessage = <any>error;
+                      if(errorMessage != null) {
+                          var body = JSON.parse(error._body);
+                          console.log(errorMessage);
+                      }
+                  }
+              );
+  }
+  getinventario() {
+    this.serviceInventario.allInventarios(this.token).subscribe(
+                  response => {
+
+                      if(!response.inventarios) {
+                          //this._router.navigate(['/datatables']);
+                      }else {
+                        console.log(response.inventarios)
+                          this.data[2].stats = response.inventarios
+                          console.log(response.inventarios)
+                      }
+                  },
+                  error => {
+                      var errorMessage = <any>error;
+                      if(errorMessage != null) {
+                          var body = JSON.parse(error._body);
+                          console.log(errorMessage);
+                      }
+                  }
+              );
+  }
+
   getVentas() {
     this.service.allVentas(this.token).subscribe(
                   response => {
